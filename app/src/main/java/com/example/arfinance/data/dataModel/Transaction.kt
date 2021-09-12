@@ -8,13 +8,13 @@ import kotlinx.parcelize.Parcelize
 
 @Entity(tableName = "transaction_table")
 @Parcelize
-data class Transaction(
+data class Transactions(
     @PrimaryKey(autoGenerate = true)
-    private  val id: Int = 0,
-    private val title:String,
-    private val type: String,
-    private val categoryID: Int,
-    private val paymentType: String,
-    private val note:String,
-    private val date : String
+   var id: Int = 0,
+   var title:String,
+   var type: String ,
+   var categoryID: Int,
+   var paymentType: String,
+   var note:String,
+   var date : String
 ):Parcelable

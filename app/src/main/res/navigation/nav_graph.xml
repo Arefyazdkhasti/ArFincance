@@ -7,9 +7,9 @@
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.example.arfinance.ui.home.HomeFragment"
+        android:name="com.example.arfinance.ui.transactionList.TransactionListFragment"
         android:label="ArFinance"
-        tools:layout="@layout/home_fragment">
+        tools:layout="@layout/transaction_list_fragment">
 
         <action
             android:id="@+id/addEditTransaction"
