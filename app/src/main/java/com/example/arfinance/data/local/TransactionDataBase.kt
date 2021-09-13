@@ -6,7 +6,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.example.arfinance.data.dataModel.Transactions
 
-@Database(entities = arrayOf(Transactions::class), version = 1)
+@Database(entities = [Transactions::class], version = 1,exportSchema = false)
 abstract class TransactionDataBase: RoomDatabase() {
 
     abstract fun transactionDao(): TransactionDao

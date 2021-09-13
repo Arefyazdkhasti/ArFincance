@@ -3,26 +3,29 @@ package com.example.arfinance.data.local
 import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.example.arfinance.data.dataModel.Transactions
+import kotlinx.coroutines.Deferred
+import kotlinx.coroutines.flow.Flow
 import java.util.*
 
 @Dao
 interface TransactionDao {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun insertTransaction(transaction: Transactions)
+    suspend fun insertTransaction(transaction: Transactions)
 
     @Delete
-    fun deleteTransaction(transaction: Transactions)
+    suspend fun deleteTransaction(transaction: Transactions)
 
     @Update
-    fun updateTransaction(transaction: Transactions)
+    suspend fun updateTransaction(transaction: Transactions)
 
     @Query("SELECT * FROM transaction_table")
-    fun getAllTransactions(): LiveData<List<Transactions>>
+    fun getAllTransactionsAsync(): LiveData<List<Transactions>>
 
     @Query("SELECT * FROM transaction_table WHERE date = :date")
-    fun getTransactionByDate(date: Date): LiveData<List<Transactions>>
+    fun getTransactionByDateAsync(date: String): LiveData<List<Transactions>>
 
     @Query("SELECT * FROM transaction_table WHERE categoryID = :categoryID")
-    fun getTransactionByCategory(categoryID: Int): LiveData<List<Transactions>>
+    fun getTransactionByCategoryAsync(categoryID: Int): LiveData<List<Transactions>>
+
 }
