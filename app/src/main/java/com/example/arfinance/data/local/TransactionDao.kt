@@ -10,7 +10,7 @@ import java.util.*
 @Dao
 interface TransactionDao {
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertTransaction(transaction: Transactions)
 
     @Delete
@@ -25,7 +25,7 @@ interface TransactionDao {
     @Query("SELECT * FROM transaction_table WHERE date = :date")
     fun getTransactionByDateAsync(date: String): Flow<List<Transactions>>
 
-    @Query("SELECT * FROM transaction_table WHERE categoryID = :categoryID")
-    fun getTransactionByCategoryAsync(categoryID: Int): Flow<List<Transactions>>
+   /* @Query("SELECT * FROM transaction_table WHERE categoryID = :categoryID")
+    fun getTransactionByCategoryAsync(categoryID: Int): Flow<List<Transactions>>*/
 
 }

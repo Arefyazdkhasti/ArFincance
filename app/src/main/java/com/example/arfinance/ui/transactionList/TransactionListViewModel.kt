@@ -15,19 +15,17 @@ class TransactionListViewModel @ViewModelInject constructor(
     private val transactionDao: TransactionDao
 ) : ViewModel() {
 
-   val transaction = transactionDao.getAllTransactionsAsync().asLiveData()
-
-    private val transactionsEventChannel = Channel<TransactionEvent>()
-    val r = transactionsEventChannel.receiveAsFlow()
-
+    val transaction = transactionDao.getAllTransactionsAsync().asLiveData()
 
     fun OnAddNewTransactionClicked() = viewModelScope.launch {
 
     }
 
-    sealed class TransactionEvent{
+
+    sealed class TransactionEvent {
         object NavigateToAddTransactionScreen : TransactionEvent()
-        data class NavigateToEditTransactionScreen(val transactions: Transactions): TransactionEvent()
+        data class NavigateToEditTransactionScreen(val transactions: Transactions) :
+            TransactionEvent()
 
     }
 }

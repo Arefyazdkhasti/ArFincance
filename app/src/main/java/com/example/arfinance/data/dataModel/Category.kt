@@ -1,8 +1,11 @@
 package com.example.arfinance.data.dataModel
 
+import android.os.Parcelable
+import com.example.arfinance.util.enumerian.CategoryType
+import kotlinx.parcelize.Parcelize
 
 data class Category(
-    private  val id:Int,
-    private val categoryName:String,
-    private val categoryIcon: String
+     var id: Int,
+     var categoryName: CategoryType,
+     var categoryIcon: Int
 )

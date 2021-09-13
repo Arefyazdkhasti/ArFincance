@@ -12,27 +12,11 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 import javax.inject.Provider
 
-@Database(entities = [Transactions::class], version = 2,exportSchema = false)
+@Database(entities = [Transactions::class], version = 1,exportSchema = false)
 abstract class TransactionDataBase: RoomDatabase() {
 
     abstract fun transactionDao(): TransactionDao
 
-   /* class Callback @Inject constructor(
-        private val database: Provider<TransactionDataBase>,
-        @ApplicationScope private val applicationScope: CoroutineScope
-    ) : RoomDatabase.Callback() {
-
-        override fun onCreate(db: SupportSQLiteDatabase) {
-            super.onCreate(db)
-
-            val dao = database.get().transactionDao()
-
-            applicationScope.launch {
-                dao.insertTransaction(Transactions(0,"r","r",1,"r","r","r"))
-                dao.insertTransaction(Transactions(0,"re","re",1,"re","re","re"))
-            }
-        }
-    }*/
    companion object {
        @Volatile
        private var instance: TransactionDataBase? = null

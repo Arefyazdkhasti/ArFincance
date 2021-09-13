@@ -8,7 +8,10 @@
     <string name="title">title</string>
     <string name="income">Income</string>
     <string name="expense">Expense</string>
+    <string name="cash">Cash</string>
+    <string name="credit_card">Credit Card</string>
     <string name="transaction_type">Transaction Type</string>
+    <string name="payment_type">Payment Type</string>
     <string name="amount">amount</string>
     <string name="date">date</string>
     <string name="category">category</string>
