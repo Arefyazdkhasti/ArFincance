@@ -3,10 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/homeFragment">
+    app:startDestination="@id/TransactionListFragment">
 
     <fragment
-        android:id="@+id/homeFragment"
+        android:id="@+id/TransactionListFragment"
         android:name="com.example.arfinance.ui.transactionList.TransactionListFragment"
         android:label="ArFinance"
         tools:layout="@layout/transaction_list_fragment">
@@ -21,7 +21,13 @@
         android:id="@+id/addEditTransactionFragment"
         android:name="com.example.arfinance.ui.addEditTransaction.AddEditTransactionFragment"
         android:label="Add Transaction"
-        tools:layout="@layout/add_edit_transaction_fragment" />
+        tools:layout="@layout/add_edit_transaction_fragment" >
+        <argument
+            android:name="transaction"
+            app:argType="com.example.arfinance.data.dataModel.Transactions"
+            app:nullable="true"
+            android:defaultValue="@null" />
+    </fragment>
     <fragment
         android:id="@+id/settingFragment"
         android:name="com.example.arfinance.ui.setting.SettingFragment"

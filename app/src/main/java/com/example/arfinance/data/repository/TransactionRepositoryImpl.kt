@@ -1,9 +1,11 @@
 package com.example.arfinance.data.repository
 
+/*
 
 import androidx.lifecycle.LiveData
 import com.example.arfinance.data.dataModel.Transactions
 import com.example.arfinance.data.local.TransactionDao
+import kotlinx.coroutines.flow.Flow
 import java.util.*
 
 class TransactionRepositoryImpl(
@@ -24,5 +26,6 @@ class TransactionRepositoryImpl(
 
     }
 
-    override suspend fun getTransactionByDate(date: String): LiveData<List<Transactions>> = transactionDao.getTransactionByDateAsync(date)
+    override suspend fun getTransactionByDate(date: String): Flow<List<Transactions>> = transactionDao.getTransactionByDateAsync(date)
 }
+*/

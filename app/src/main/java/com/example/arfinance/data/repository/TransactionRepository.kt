@@ -1,8 +1,10 @@
 package com.example.arfinance.data.repository
 
 
+/*
 import androidx.lifecycle.LiveData
 import com.example.arfinance.data.dataModel.Transactions
+import kotlinx.coroutines.flow.Flow
 import java.util.*
 
 interface TransactionRepository {
@@ -13,5 +15,6 @@ interface TransactionRepository {
 
     suspend fun updateTransaction(transaction: Transactions)
 
-    suspend fun getTransactionByDate(date: String): LiveData<List<Transactions>>
+    suspend fun getTransactionByDate(date: String): Flow<List<Transactions>>
 }
+*/

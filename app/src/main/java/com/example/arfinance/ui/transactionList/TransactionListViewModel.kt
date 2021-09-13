@@ -1,16 +1,33 @@
 package com.example.arfinance.ui.transactionList
 
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
+import androidx.lifecycle.viewModelScope
+import com.example.arfinance.data.dataModel.Transactions
 import com.example.arfinance.data.local.TransactionDao
-import com.example.armovie.utility.lazyDeferred
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.receiveAsFlow
+import javax.inject.Inject
 
-class TransactionListViewModel(
-    private  var transactionDao: TransactionDao
+class TransactionListViewModel @ViewModelInject constructor(
+    private val transactionDao: TransactionDao
 ) : ViewModel() {
 
-    val transactions by lazyDeferred {
-       // transactionDao.getAllTransactionsAsync()
+   val transaction = transactionDao.getAllTransactionsAsync().asLiveData()
+
+    private val transactionsEventChannel = Channel<TransactionEvent>()
+    val r = transactionsEventChannel.receiveAsFlow()
+
+
+    fun OnAddNewTransactionClicked() = viewModelScope.launch {
+
     }
 
+    sealed class TransactionEvent{
+        object NavigateToAddTransactionScreen : TransactionEvent()
+        data class NavigateToEditTransactionScreen(val transactions: Transactions): TransactionEvent()
+
+    }
 }
