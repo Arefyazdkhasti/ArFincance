@@ -1,6 +1,8 @@
 package com.example.arfinance.di
 
 import android.content.Context
+import com.example.arfinance.data.local.CategoryDao
+import com.example.arfinance.data.local.CategoryDataBase
 import com.example.arfinance.data.local.TransactionDataBase
 import dagger.Module
 import dagger.Provides
@@ -19,11 +21,23 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun provideNewsDataBse(@ApplicationContext context: Context) = TransactionDataBase.getDatabase(context)
+    fun provideTransactionDataBse(@ApplicationContext context: Context) =
+        TransactionDataBase.getDatabase(context)
 
     @Singleton
     @Provides
-    fun provideNewsDao(db: TransactionDataBase) = db.transactionDao()
+    fun provideTransactionDao(db: TransactionDataBase) = db.transactionDao()
+
+    @Singleton
+    @Provides
+    fun provideCategoryDataBse(@ApplicationContext context: Context) =
+        CategoryDataBase.getDatabase(context)
+
+    @Singleton
+    @Provides
+    fun provideCategoryDao(db: CategoryDataBase) = db.categoryDao()
+
+
 
 
     @ApplicationScope

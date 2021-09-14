@@ -18,4 +18,5 @@
     <string name="note">note</string>
     <string name="save">Save</string>
     <string name="add">Add</string>
+    <string name="add_category_desc">add category</string>
 </resources>

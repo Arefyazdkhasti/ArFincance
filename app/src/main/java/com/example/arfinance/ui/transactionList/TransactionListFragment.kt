@@ -7,17 +7,21 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.arfinance.R
 import com.example.arfinance.data.dataModel.Transactions
 import com.example.arfinance.databinding.TransactionListFragmentBinding
 import com.example.arfinance.util.autoCleared
+import com.example.arfinance.util.exhaustive
 import com.example.arfinance.util.interfaces.OpenFullScreenListener
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
 
 @AndroidEntryPoint
 class TransactionListFragment : Fragment(R.layout.transaction_list_fragment) {
@@ -40,17 +44,14 @@ class TransactionListFragment : Fragment(R.layout.transaction_list_fragment) {
 
         binding.addTransactionFab.setOnClickListener {
             if (it == null) return@setOnClickListener
-            val action = TransactionListFragmentDirections.addEditTransaction()
-            Navigation.findNavController(requireActivity(), it.id).navigate(action)
+            viewModel.addNewTransactionClicked()
         }
         bindUI()
     }
 
     private fun bindUI() {
 
-        binding.header.income.text = "12.200.000 toman"
         viewModel.transaction.observe(viewLifecycleOwner) {
-            println("here")
             if (it.isNullOrEmpty())
                 Toast.makeText(requireContext(), "gooz", Toast.LENGTH_SHORT).show()
             else {
@@ -58,6 +59,20 @@ class TransactionListFragment : Fragment(R.layout.transaction_list_fragment) {
                 initTransactionsRecyclerView(it.toTransactionItems(),binding.transactionListRecyclerView)
             }
 
+        }
+
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+            viewModel.transactionEvent.collect { event ->
+                when(event){
+                    is TransactionListViewModel.TransactionListEvent.NavigateToAddTransactionScreen -> {
+                        val action = TransactionListFragmentDirections.addEditTransaction()
+                        findNavController().navigate(action)
+                    }
+                    is TransactionListViewModel.TransactionListEvent.NavigateToEditTransactionScreen -> {
+                        //todo edit transaction
+                    }
+                }.exhaustive
+            }
         }
     }
 

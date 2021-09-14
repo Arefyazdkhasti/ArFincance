@@ -9,8 +9,8 @@ import com.example.arfinance.data.dataModel.Transactions
 import com.example.arfinance.data.local.TransactionDao
 import com.example.arfinance.util.enumerian.PaymentType
 import com.example.arfinance.util.enumerian.TransactionType
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 
 class AddEditTransactionViewModel @ViewModelInject constructor(
@@ -19,6 +19,9 @@ class AddEditTransactionViewModel @ViewModelInject constructor(
 ) : ViewModel() {
 
     val transaction = state.get<Transactions>("transaction")
+
+    private val transactionEventChannel = Channel<AddEditTransactionEvent>()
+    val addEditTransactionEvent = transactionEventChannel.receiveAsFlow()
 
     var transactionTitle = state.get<String>("transactionTitle") ?: transaction?.title ?: ""
         set(value) {
@@ -40,7 +43,7 @@ class AddEditTransactionViewModel @ViewModelInject constructor(
         }
 
     var transactionCategory =
-        state.get<Int>("transactionCategoryID") ?: transaction?.categoryId ?: 1
+        state.get<Int>("transactionCategoryID") ?: transaction?.categoryId ?: 0
         set(value) {
             field = value
             state.set("transactionCategoryID", value)
@@ -70,21 +73,57 @@ class AddEditTransactionViewModel @ViewModelInject constructor(
 
 
     fun onSaveClick() {
-        val newTransaction = Transactions(
-            0,
-            transactionTitle,
-            transactionAmount,
-            transactionType,
-            transactionCategory,
-            transactionPaymentType,
-            transactionNote,
-            transactionDate
-        )
-        createTransaction(newTransaction)
+        if (transactionTitle.isEmpty() || transactionAmount.toInt() == 0 || transactionCategory == 0 || transactionDate.isEmpty()) {
+            showInvalidInputMessage("Input all data validly")
+            return
+        }
+        if(transaction != null){
+            val updatedTask = transaction.copy(title = transactionTitle,
+                amount = transactionAmount,
+                type = transactionType,
+                categoryId =  transactionCategory,
+                paymentType = transactionPaymentType,
+                note = transactionNote,
+                date = transactionDate)
+            updateTransaction(updatedTask)
+        }else {
+            val newTransaction = Transactions(
+                title = transactionTitle,
+                amount = transactionAmount,
+                type = transactionType,
+                categoryId =  transactionCategory,
+                paymentType = transactionPaymentType,
+                note = transactionNote,
+                date = transactionDate
+            )
+            createTransaction(newTransaction)
+        }
+    }
+
+    private fun updateTransaction(transaction: Transactions) = viewModelScope.launch{
+        transactionDao.updateTransaction(transaction)
+        showSuccessMessage("Transaction Updated Successfully")
     }
 
     private fun createTransaction(transaction: Transactions) = viewModelScope.launch {
         transactionDao.insertTransaction(transaction)
+        showSuccessMessage("Transaction Added Successfully")
     }
 
+    private fun showInvalidInputMessage(msg: String) = viewModelScope.launch {
+        transactionEventChannel.send(AddEditTransactionEvent.ShowInvalidInputMessage(msg))
+    }
+    private fun showSuccessMessage(text: String) = viewModelScope.launch {
+        transactionEventChannel.send(AddEditTransactionEvent.ShowSuccessMessage(text))
+    }
+
+    fun onSelectCategoryClick() = viewModelScope.launch {
+        transactionEventChannel.send(AddEditTransactionEvent.NavigateToSelectCategory)
+    }
+
+    sealed class AddEditTransactionEvent {
+        data class ShowInvalidInputMessage(val msg: String) : AddEditTransactionEvent()
+        data class ShowSuccessMessage(val msg:String): AddEditTransactionEvent()
+        object NavigateToSelectCategory: AddEditTransactionEvent()
+    }
 }

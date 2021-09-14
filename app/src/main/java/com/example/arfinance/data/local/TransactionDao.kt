@@ -20,12 +20,12 @@ interface TransactionDao {
     suspend fun updateTransaction(transaction: Transactions)
 
     @Query("SELECT * FROM transaction_table")
-    fun getAllTransactionsAsync(): Flow<List<Transactions>>
+    fun getAllTransactions(): Flow<List<Transactions>>
 
     @Query("SELECT * FROM transaction_table WHERE date = :date")
-    fun getTransactionByDateAsync(date: String): Flow<List<Transactions>>
+    fun getTransactionByDate(date: String): Flow<List<Transactions>>
 
-   /* @Query("SELECT * FROM transaction_table WHERE categoryID = :categoryID")
-    fun getTransactionByCategoryAsync(categoryID: Int): Flow<List<Transactions>>*/
+    @Query("SELECT * FROM transaction_table WHERE categoryID = :categoryID")
+    fun getTransactionByCategoryAsync(categoryID: Int): Flow<List<Transactions>>
 
 }
