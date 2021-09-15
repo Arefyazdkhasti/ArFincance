@@ -30,7 +30,7 @@ class AddEditTransactionViewModel @ViewModelInject constructor(
         }
 
     var transactionType = state.get<TransactionType>("transactionType") ?: transaction?.type
-    ?: TransactionType.Expense
+    ?: TransactionType.Unknown
         set(value) {
             field = value
             state.set("transactionType", value)
@@ -58,7 +58,7 @@ class AddEditTransactionViewModel @ViewModelInject constructor(
 
     var transactionPaymentType =
         state.get<PaymentType>("transactionPaymentType") ?: transaction?.paymentType
-        ?: PaymentType.CreditCard
+        ?: PaymentType.Unknown
         set(value) {
             field = value
             state.set("transactionPaymentType", value)

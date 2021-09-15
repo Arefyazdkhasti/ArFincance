@@ -1,11 +1,11 @@
 package com.example.arfinance.util.enumerian
 
 enum class TransactionType {
-    Income, Expense
+    Income, Expense, Unknown
 }
 
 enum class PaymentType {
-    Cash, CreditCard
+    Cash, CreditCard, Unknown
 }
 
 enum class BalanceTime {

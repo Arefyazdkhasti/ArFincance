@@ -1,6 +1,8 @@
 package com.example.arfinance.ui.transactionList
 
+import androidx.hilt.Assisted
 import androidx.hilt.lifecycle.ViewModelInject
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
@@ -10,7 +12,10 @@ import com.example.arfinance.data.dataModel.Transactions
 import com.example.arfinance.data.local.CategoryDao
 import com.example.arfinance.data.local.TransactionDao
 import com.example.arfinance.util.enumerian.CategoryType
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 
@@ -19,13 +24,23 @@ class TransactionListViewModel @ViewModelInject constructor(
     private val categoryDao: CategoryDao
 ) : ViewModel() {
 
-    val transaction = transactionDao.getAllTransactions().asLiveData()
+    val dateQuery = MutableStateFlow("")
+
+    private val transactionFlow = dateQuery.flatMapLatest {
+        transactionDao.getTransactionByDate(it)
+    }
+
+    val transaction = transactionFlow.asLiveData()
+
     val categoryDbSize = categoryDao.getCategoryCount().asLiveData()
     private val transactionsEventChannel = Channel<TransactionListEvent>()
     val transactionEvent = transactionsEventChannel.receiveAsFlow()
 
     fun addNewTransactionClicked() = viewModelScope.launch {
         transactionsEventChannel.send(TransactionListEvent.NavigateToAddTransactionScreen)
+    }
+    fun onTransactionSelected(transaction: Transactions) = viewModelScope.launch {
+        transactionsEventChannel.send(TransactionListEvent.NavigateToEditTransactionScreen(transaction))
     }
 
     fun addCategoryList()= viewModelScope.launch{
@@ -64,5 +79,6 @@ class TransactionListViewModel @ViewModelInject constructor(
     sealed class TransactionListEvent {
         object NavigateToAddTransactionScreen : TransactionListEvent()
         data class NavigateToEditTransactionScreen(val transactions: Transactions) : TransactionListEvent()
+       // data class SelectDateToShow(val date:String): TransactionListEvent()
     }
 }

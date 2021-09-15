@@ -55,6 +55,31 @@ class AddEditTransactionFragment : Fragment(R.layout.add_edit_transaction_fragme
 
     private fun bindUI() {
         binding.apply {
+
+            title.setText(viewModel.transactionTitle)
+            amount.setText(viewModel.transactionAmount.toString())
+            date.setText(viewModel.transactionDate)
+            category.setText(viewModel.transactionCategoryName)
+            note.setText(viewModel.transactionNote)
+
+            //todo chips didn't update :/
+            when (viewModel.transactionType) {
+                TransactionType.Expense -> {
+                    println("here expense")
+                    operationTypeGroup.check(R.id.expense)
+                }
+                TransactionType.Income -> {
+                    println("here income")
+                    operationTypeGroup.check(R.id.income)
+
+                }
+                TransactionType.Unknown -> {
+                    println("here unkouwn")
+                    operationTypeGroup.check(R.id.expense)
+                }
+            }
+
+
             title.addTextChangedListener {
                 if (!it.isNullOrEmpty())
                     viewModel.transactionTitle = it.toString()
@@ -90,26 +115,26 @@ class AddEditTransactionFragment : Fragment(R.layout.add_edit_transaction_fragme
             binding.creditCard.isChecked = true
 
             operationTypeGroup.setOnCheckedChangeListener { group, checkedId ->
-                when(checkedId){
-                    R.id.income-> {
+                when (checkedId) {
+                    R.id.income -> {
                         println("INCOME")
                         viewModel.transactionType = TransactionType.Income
                     }
-                    R.id.expense->{
+                    R.id.expense -> {
                         println("EXPENSE")
                         viewModel.transactionType = TransactionType.Expense
                     }
                 }
             }
             paymentTypeGroup.setOnCheckedChangeListener { group, checkedId ->
-                when(checkedId){
-                    R.id.cash-> {
+                when (checkedId) {
+                    R.id.cash -> {
                         println("cash")
-                        viewModel.transactionPaymentType =  PaymentType.Cash
+                        viewModel.transactionPaymentType = PaymentType.Cash
                     }
-                    R.id.credit_card->{
+                    R.id.credit_card -> {
                         println("credit")
-                        viewModel.transactionPaymentType =  PaymentType.CreditCard
+                        viewModel.transactionPaymentType = PaymentType.CreditCard
                     }
                 }
             }

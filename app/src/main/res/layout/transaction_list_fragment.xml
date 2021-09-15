@@ -27,10 +27,20 @@
                 android:id="@+id/txt_transactions"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/standard_margin"
+                android:layout_margin="@dimen/large_margin"
                 android:text="@string/transactions"
                 android:textSize="@dimen/large_font"
                 app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/header" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/txt_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/large_margin"
+                android:text="@string/today"
+                android:textSize="@dimen/large_font"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/header" />
 
             <androidx.recyclerview.widget.RecyclerView
