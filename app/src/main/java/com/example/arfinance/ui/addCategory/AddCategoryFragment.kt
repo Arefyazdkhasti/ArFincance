@@ -72,7 +72,7 @@ class AddCategoryFragment : Fragment(R.layout.add_category_fragment),CategoryIco
     }
 
     private fun showChooseIconDialog() {
-        val  bottomSheet= CategoryBottomSheetDialog()
+        val  bottomSheet= CategoryBottomSheetDialog(this)
         bottomSheet.show(requireActivity().supportFragmentManager,bottomSheet.tag)
 
     }

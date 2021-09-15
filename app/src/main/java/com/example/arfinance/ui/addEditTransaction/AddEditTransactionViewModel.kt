@@ -42,11 +42,18 @@ class AddEditTransactionViewModel @ViewModelInject constructor(
             state.set("transactionAmount", value)
         }
 
-    var transactionCategory =
-        state.get<Int>("transactionCategoryID") ?: transaction?.categoryId ?: 0
+    var transactionCategoryName =
+        state.get<String>("transactionCategoryID") ?: transaction?.categoryName ?: ""
         set(value) {
             field = value
             state.set("transactionCategoryID", value)
+        }
+
+    var transactionCategoryIcon =
+        state.get<Int>("transactionCategoryIcon") ?: transaction?.categoryIcon ?: 0
+        set(value) {
+            field = value
+            state.set("transactionCategoryIcon", value)
         }
 
     var transactionPaymentType =
@@ -73,7 +80,7 @@ class AddEditTransactionViewModel @ViewModelInject constructor(
 
 
     fun onSaveClick() {
-        if (transactionTitle.isEmpty() || transactionAmount.toInt() == 0 || transactionCategory == 0 || transactionDate.isEmpty()) {
+        if (transactionTitle.isEmpty() || transactionAmount.toInt() == 0 || transactionCategoryName == "" || transactionDate.isEmpty()) {
             showInvalidInputMessage("Input all data validly")
             return
         }
@@ -81,7 +88,8 @@ class AddEditTransactionViewModel @ViewModelInject constructor(
             val updatedTask = transaction.copy(title = transactionTitle,
                 amount = transactionAmount,
                 type = transactionType,
-                categoryId =  transactionCategory,
+                categoryName =  transactionCategoryName,
+                categoryIcon = transactionCategoryIcon,
                 paymentType = transactionPaymentType,
                 note = transactionNote,
                 date = transactionDate)
@@ -91,7 +99,8 @@ class AddEditTransactionViewModel @ViewModelInject constructor(
                 title = transactionTitle,
                 amount = transactionAmount,
                 type = transactionType,
-                categoryId =  transactionCategory,
+                categoryName =  transactionCategoryName,
+                categoryIcon = transactionCategoryIcon,
                 paymentType = transactionPaymentType,
                 note = transactionNote,
                 date = transactionDate

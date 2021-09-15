@@ -25,7 +25,7 @@ interface TransactionDao {
     @Query("SELECT * FROM transaction_table WHERE date = :date")
     fun getTransactionByDate(date: String): Flow<List<Transactions>>
 
-    @Query("SELECT * FROM transaction_table WHERE categoryID = :categoryID")
+ /*   @Query("SELECT * FROM transaction_table WHERE categoryID = :categoryID")
     fun getTransactionByCategoryAsync(categoryID: Int): Flow<List<Transactions>>
-
+*/
 }

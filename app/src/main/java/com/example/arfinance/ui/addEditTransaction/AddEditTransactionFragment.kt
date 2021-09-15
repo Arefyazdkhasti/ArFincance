@@ -24,6 +24,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.math.exp
 
 const val CATEGORY_REQUEST_KEY = "com.example.arfinance.ui.addEditTransaction_category_request_key"
 const val CATEGORY_BUNDLE = "com.example.arfinance.ui.addEditTransaction_category_bundle"
@@ -85,17 +86,34 @@ class AddEditTransactionFragment : Fragment(R.layout.add_edit_transaction_fragme
                 if (!it.isNullOrEmpty())
                     viewModel.transactionNote = it.toString()
             }
+            binding.expense.isChecked = true
+            binding.creditCard.isChecked = true
 
-            if (operationTypeGroup.checkedChipId == 0)
-                viewModel.transactionType = TransactionType.Income
-            else if (operationTypeGroup.checkedChipId == 1)
-                viewModel.transactionType = TransactionType.Expense
+            operationTypeGroup.setOnCheckedChangeListener { group, checkedId ->
+                when(checkedId){
+                    R.id.income-> {
+                        println("INCOME")
+                        viewModel.transactionType = TransactionType.Income
+                    }
+                    R.id.expense->{
+                        println("EXPENSE")
+                        viewModel.transactionType = TransactionType.Expense
+                    }
+                }
+            }
+            paymentTypeGroup.setOnCheckedChangeListener { group, checkedId ->
+                when(checkedId){
+                    R.id.cash-> {
+                        println("cash")
+                        viewModel.transactionPaymentType =  PaymentType.Cash
+                    }
+                    R.id.credit_card->{
+                        println("credit")
+                        viewModel.transactionPaymentType =  PaymentType.CreditCard
+                    }
+                }
+            }
 
-
-            if (paymentTypeGroup.checkedChipId == 0)
-                viewModel.transactionPaymentType = PaymentType.Cash
-            else if (operationTypeGroup.checkedChipId == 1)
-                viewModel.transactionPaymentType = PaymentType.CreditCard
 
         }
 
@@ -115,7 +133,8 @@ class AddEditTransactionFragment : Fragment(R.layout.add_edit_transaction_fragme
                             val category = bundle.getParcelable<Category>(CATEGORY_BUNDLE)
                             if (category != null) {
                                 binding.category.setText(category.categoryName)
-                                viewModel.transactionCategory = category.id
+                                viewModel.transactionCategoryName = category.categoryName
+                                viewModel.transactionCategoryIcon = category.categoryIcon
                             }
                         }
                         val action = AddEditTransactionFragmentDirections.selectCategory()

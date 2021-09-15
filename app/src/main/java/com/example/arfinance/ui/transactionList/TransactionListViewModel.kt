@@ -21,7 +21,6 @@ class TransactionListViewModel @ViewModelInject constructor(
 
     val transaction = transactionDao.getAllTransactions().asLiveData()
     val categoryDbSize = categoryDao.getCategoryCount().asLiveData()
-
     private val transactionsEventChannel = Channel<TransactionListEvent>()
     val transactionEvent = transactionsEventChannel.receiveAsFlow()
 
@@ -60,6 +59,7 @@ class TransactionListViewModel @ViewModelInject constructor(
         categoryDao.insertCategory(Category(categoryName = CategoryType.working.name,categoryIcon = R.drawable.ic_working))
         categoryDao.insertCategory(Category(categoryName = CategoryType.other.name,categoryIcon = R.drawable.ic_other))
     }
+
 
     sealed class TransactionListEvent {
         object NavigateToAddTransactionScreen : TransactionListEvent()

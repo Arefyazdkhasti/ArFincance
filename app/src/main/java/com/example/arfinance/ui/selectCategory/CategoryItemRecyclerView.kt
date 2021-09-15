@@ -20,7 +20,6 @@ class CategoryItemRecyclerView(val category: Category) : Item<GroupieViewHolder>
             Glide.with(viewHolder.itemView)
                 .load(category.categoryIcon)
                 .into(categoryIcon)
-
         }
     }
 

@@ -4,9 +4,7 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_marginStart="@dimen/standard_margin"
-    android:layout_marginEnd="@dimen/standard_margin"
-    android:layout_marginTop="@dimen/standard_margin">
+    >
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/transaction_icon"

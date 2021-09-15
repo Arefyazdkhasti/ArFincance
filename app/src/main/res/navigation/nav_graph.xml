@@ -21,15 +21,17 @@
         android:id="@+id/addEditTransactionFragment"
         android:name="com.example.arfinance.ui.addEditTransaction.AddEditTransactionFragment"
         android:label="Add Transaction"
-        tools:layout="@layout/add_edit_transaction_fragment" >
+        tools:layout="@layout/add_edit_transaction_fragment">
         <argument
             android:name="transaction"
+            android:defaultValue="@null"
             app:argType="com.example.arfinance.data.dataModel.Transactions"
-            app:nullable="true"
-            android:defaultValue="@null" />
+            app:nullable="true" />
         <action
             android:id="@+id/selectCategory"
-            app:destination="@id/selectCategoryFragment" />
+            app:destination="@id/selectCategoryFragment"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out" />
     </fragment>
     <fragment
         android:id="@+id/settingFragment"
@@ -50,10 +52,12 @@
         android:id="@+id/selectCategoryFragment"
         android:name="com.example.arfinance.ui.selectCategory.SelectCategoryFragment"
         android:label="Select Category"
-        tools:layout="@layout/select_category_fragment" >
+        tools:layout="@layout/select_category_fragment">
         <action
             android:id="@+id/addCategory"
-            app:destination="@id/addCategoryFragment" />
+            app:destination="@id/addCategoryFragment"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out"/>
     </fragment>
 
 </navigation>

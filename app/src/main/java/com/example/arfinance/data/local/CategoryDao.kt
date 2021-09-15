@@ -23,5 +23,7 @@ interface CategoryDao {
     @Query("SELECT * FROM Category_table")
     fun getAllCategories(): Flow<List<Category>>
 
+    @Query("SELECT * FROM Category_table WHERE id = :id")
+    fun getCategoryById(id:Int): Category
     
 }

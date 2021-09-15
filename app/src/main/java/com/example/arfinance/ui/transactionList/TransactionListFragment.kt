@@ -10,6 +10,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.arfinance.R
@@ -64,7 +65,9 @@ class TransactionListFragment : Fragment(R.layout.transaction_list_fragment) {
             if (it.isNullOrEmpty())
                 Toast.makeText(requireContext(), "gooz", Toast.LENGTH_SHORT).show()
             else {
-                println(it[0].toString())
+                it.forEach { y ->
+                    println(y.toString())
+                }
                 initTransactionsRecyclerView(
                     it.toTransactionItems(),
                     binding.transactionListRecyclerView
@@ -97,8 +100,10 @@ class TransactionListFragment : Fragment(R.layout.transaction_list_fragment) {
         }
 
         recyclerView.apply {
-            layoutManager = LinearLayoutManager(this.context, LinearLayoutManager.VERTICAL, false)
+            layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
             adapter = groupAdapter
+            val divider = DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL)
+            addItemDecoration(divider)
         }
 
         groupAdapter.setOnItemClickListener { item, view ->
