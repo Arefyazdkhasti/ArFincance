@@ -1,5 +1,6 @@
 package com.example.arfinance.data.local
 
+import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.example.arfinance.data.dataModel.Category
 import kotlinx.coroutines.flow.Flow
@@ -15,6 +16,9 @@ interface CategoryDao {
 
     @Update
     suspend fun updateCategory(Category: Category)
+
+    @Query("SELECT count(id) FROM category_table")
+    fun getCategoryCount(): Flow<Int>
 
     @Query("SELECT * FROM Category_table")
     fun getAllCategories(): Flow<List<Category>>

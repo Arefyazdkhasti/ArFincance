@@ -42,6 +42,8 @@ class TransactionListFragment : Fragment(R.layout.transaction_list_fragment) {
         super.onViewCreated(view, savedInstanceState)
         (requireActivity() as OpenFullScreenListener).onScreenClose()
 
+
+
         binding.addTransactionFab.setOnClickListener {
             if (it == null) return@setOnClickListener
             viewModel.addNewTransactionClicked()
@@ -51,19 +53,29 @@ class TransactionListFragment : Fragment(R.layout.transaction_list_fragment) {
 
     private fun bindUI() {
 
+        viewModel.categoryDbSize.observe(viewLifecycleOwner) {
+            if (it == null) return@observe
+            if (it == 0) {//fill category db if it's empty
+                viewModel.addCategoryList()
+            }
+        }
+
         viewModel.transaction.observe(viewLifecycleOwner) {
             if (it.isNullOrEmpty())
                 Toast.makeText(requireContext(), "gooz", Toast.LENGTH_SHORT).show()
             else {
                 println(it[0].toString())
-                initTransactionsRecyclerView(it.toTransactionItems(),binding.transactionListRecyclerView)
+                initTransactionsRecyclerView(
+                    it.toTransactionItems(),
+                    binding.transactionListRecyclerView
+                )
             }
 
         }
 
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.transactionEvent.collect { event ->
-                when(event){
+                when (event) {
                     is TransactionListViewModel.TransactionListEvent.NavigateToAddTransactionScreen -> {
                         val action = TransactionListFragmentDirections.addEditTransaction()
                         findNavController().navigate(action)
@@ -76,7 +88,10 @@ class TransactionListFragment : Fragment(R.layout.transaction_list_fragment) {
         }
     }
 
-    private fun initTransactionsRecyclerView(items: List<TransactionItemRecyclerView>, recyclerView: RecyclerView) {
+    private fun initTransactionsRecyclerView(
+        items: List<TransactionItemRecyclerView>,
+        recyclerView: RecyclerView
+    ) {
         val groupAdapter = GroupAdapter<GroupieViewHolder>().apply {
             addAll(items)
         }
@@ -91,8 +106,9 @@ class TransactionListFragment : Fragment(R.layout.transaction_list_fragment) {
         }
     }
 
-    private fun List<Transactions>.toTransactionItems(): List<TransactionItemRecyclerView> = this.map {
-        TransactionItemRecyclerView(it)
-    }
+    private fun List<Transactions>.toTransactionItems(): List<TransactionItemRecyclerView> =
+        this.map {
+            TransactionItemRecyclerView(it)
+        }
 
 }

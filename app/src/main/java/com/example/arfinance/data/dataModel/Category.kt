@@ -10,6 +10,6 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class Category(
     @PrimaryKey(autoGenerate = true) var id: Int = 0,
-    var categoryName: CategoryType,
+    var categoryName: String,
     var categoryIcon: Int
 ) : Parcelable

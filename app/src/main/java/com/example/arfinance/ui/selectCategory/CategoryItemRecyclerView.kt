@@ -15,7 +15,7 @@ class CategoryItemRecyclerView(val category: Category) : Item<GroupieViewHolder>
         val binding = ItemCategoryBinding.bind(viewHolder.itemView)
 
         binding.apply {
-            categoryTitle.text = category.categoryName.name
+            categoryTitle.text = category.categoryName
 
             Glide.with(viewHolder.itemView)
                 .load(category.categoryIcon)

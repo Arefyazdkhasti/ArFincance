@@ -14,6 +14,8 @@ import com.example.arfinance.R
 import com.example.arfinance.data.dataModel.Category
 import com.example.arfinance.databinding.AddEditTransactionFragmentBinding
 import com.example.arfinance.util.UiUtil
+import com.example.arfinance.util.UiUtil.Companion.showSnackBar
+import com.example.arfinance.util.UiUtil.Companion.showToast
 import com.example.arfinance.util.autoCleared
 import com.example.arfinance.util.enumerian.PaymentType
 import com.example.arfinance.util.enumerian.TransactionType
@@ -101,10 +103,10 @@ class AddEditTransactionFragment : Fragment(R.layout.add_edit_transaction_fragme
             viewModel.addEditTransactionEvent.collect { event ->
                 when (event) {
                     is AddEditTransactionViewModel.AddEditTransactionEvent.ShowInvalidInputMessage -> {
-                        UiUtil.showSnackBar(requireView(), event.msg)
+                        showSnackBar(requireView(), event.msg)
                     }
                     is AddEditTransactionViewModel.AddEditTransactionEvent.ShowSuccessMessage -> {
-                        UiUtil.showToast(requireContext(), event.msg)
+                        showToast(requireContext(), event.msg)
                         findNavController().popBackStack()
                     }
                     is AddEditTransactionViewModel.AddEditTransactionEvent.NavigateToSelectCategory -> {
@@ -112,7 +114,7 @@ class AddEditTransactionFragment : Fragment(R.layout.add_edit_transaction_fragme
                             // read from the bundle
                             val category = bundle.getParcelable<Category>(CATEGORY_BUNDLE)
                             if (category != null) {
-                                binding.category.setText(category.categoryName.name)
+                                binding.category.setText(category.categoryName)
                                 viewModel.transactionCategory = category.id
                             }
                         }

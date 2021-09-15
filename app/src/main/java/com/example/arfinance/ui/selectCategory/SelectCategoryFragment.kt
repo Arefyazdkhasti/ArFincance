@@ -9,6 +9,8 @@ import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -17,6 +19,7 @@ import com.example.arfinance.data.dataModel.Category
 import com.example.arfinance.data.dataModel.Transactions
 import com.example.arfinance.databinding.SelectCategoryFragmentBinding
 import com.example.arfinance.databinding.TransactionListFragmentBinding
+import com.example.arfinance.ui.addEditTransaction.AddEditTransactionFragmentDirections
 import com.example.arfinance.ui.addEditTransaction.CATEGORY_BUNDLE
 import com.example.arfinance.ui.addEditTransaction.CATEGORY_REQUEST_KEY
 import com.example.arfinance.ui.transactionList.TransactionItemRecyclerView
@@ -24,6 +27,7 @@ import com.example.arfinance.util.autoCleared
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
 
 @AndroidEntryPoint
 class SelectCategoryFragment : Fragment(R.layout.select_category_fragment) {
@@ -45,10 +49,26 @@ class SelectCategoryFragment : Fragment(R.layout.select_category_fragment) {
     }
 
     private fun bindUI() {
+
+        binding.addCategoryFab.setOnClickListener{
+            viewModel.addNewcategoryClicked()
+        }
+
        viewModel.categories.observe(viewLifecycleOwner){
             if (it == null) return@observe
             println("size -> ${it.size}")
             initCategoryRecyclerView(it.toCategoryItems(),binding.categoryRecyclerView)
+       }
+
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+            viewModel.selectCategoryEvent.collect { event ->
+                when(event){
+                     is SelectCategoryViewModel.SelectCategoryListEvent.NavigateToAddCategoryScreen ->{
+                         val action = SelectCategoryFragmentDirections.addCategory()
+                         Navigation.findNavController(requireView()).navigate(action)
+                     }
+                }
+            }
         }
     }
 
