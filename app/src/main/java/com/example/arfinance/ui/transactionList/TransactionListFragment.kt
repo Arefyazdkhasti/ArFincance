@@ -1,13 +1,12 @@
 package com.example.arfinance.ui.transactionList
 
 import android.app.DatePickerDialog
+import android.graphics.Color
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.core.os.bundleOf
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -15,26 +14,39 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.arfinance.R
+import com.example.arfinance.data.dataModel.Balance
 import com.example.arfinance.data.dataModel.Transactions
 import com.example.arfinance.databinding.TransactionListFragmentBinding
 import com.example.arfinance.util.autoCleared
+import com.example.arfinance.util.enumerian.BalanceTime
 import com.example.arfinance.util.exhaustive
 import com.example.arfinance.util.interfaces.OpenFullScreenListener
+import com.github.mikephil.charting.animation.Easing
+import com.github.mikephil.charting.charts.PieChart
+import com.github.mikephil.charting.components.Legend
+import com.github.mikephil.charting.data.PieData
+import com.github.mikephil.charting.data.PieDataSet
+import com.github.mikephil.charting.data.PieEntry
+import com.github.mikephil.charting.formatter.PercentFormatter
+import com.github.mikephil.charting.utils.ColorTemplate
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
+import java.text.NumberFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
+
 private const val DATE_KEY = "com.example.arfinance.ui.transactionList_date_key"
+
 @AndroidEntryPoint
 class TransactionListFragment : Fragment(R.layout.transaction_list_fragment) {
 
     private val viewModel: TransactionListViewModel by viewModels()
     private var binding: TransactionListFragmentBinding by autoCleared()
     private val calendar = Calendar.getInstance()
+    private val balance = Balance(0, BalanceTime.WEEK, 0, 0)
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -56,10 +68,10 @@ class TransactionListFragment : Fragment(R.layout.transaction_list_fragment) {
 
     private fun bindUI(bundle: String?) {
 
-        if (bundle != null){
+        if (bundle != null) {
             binding.txtDate.text = bundle
             viewModel.dateQuery.value = bundle
-        }else {
+        } else {
             viewModel.dateQuery.value = getToday()
         }
 
@@ -78,6 +90,9 @@ class TransactionListFragment : Fragment(R.layout.transaction_list_fragment) {
             }
         }
 
+        viewModel.balanceWeekStartDate.value = get7DaysAgo()
+        viewModel.balanceWeekEndDate.value = getToday()
+
         viewModel.transaction.observe(viewLifecycleOwner) {
             if (it.isNullOrEmpty()) {
                 binding.transactionListRecyclerView.visibility = View.GONE
@@ -88,6 +103,26 @@ class TransactionListFragment : Fragment(R.layout.transaction_list_fragment) {
                     binding.transactionListRecyclerView
                 )
             }
+        }
+
+        viewModel.balanceIncomeWeek.observe(viewLifecycleOwner) {
+            if (it == null) return@observe
+            binding.header.income.text = moneyFormatter(it.toLong())
+            balance.income = it
+
+        }
+        viewModel.balanceExpenseWeek.observe(viewLifecycleOwner) {
+            if (it == null) return@observe
+            binding.header.expense.text = moneyFormatter(it.toLong())
+            balance.expense = it
+
+            binding.header.totalBalance.text = moneyFormatter(balance.getBalance())
+        }
+
+        viewModel.transactionListDateRange.observe(viewLifecycleOwner) { transactionsListByRange ->
+            if (transactionsListByRange == null) return@observe
+            setupPieChart()
+            loadCharData(transactionsListByRange, binding.header.pieChart)
 
         }
 
@@ -177,9 +212,73 @@ class TransactionListFragment : Fragment(R.layout.transaction_list_fragment) {
         return sdf.format(System.currentTimeMillis())
     }
 
+    private fun get7DaysAgo(): String {
+        val sdf = SimpleDateFormat("MM/dd/yyyy", Locale.US)
+        return sdf.format(System.currentTimeMillis() - 604800000L) //7 days ago
+    }
+
+    private fun moneyFormatter(number: Long): String {
+        val format: NumberFormat = NumberFormat.getCurrencyInstance()
+        format.maximumFractionDigits = 0
+        format.currency = Currency.getInstance("IRR")
+
+        return format.format(number)
+    }
+
     //todo save day with view model
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putString(DATE_KEY, formatDate(calendar.time))
     }
+
+    private fun setupPieChart() {
+        binding.header.pieChart.apply {
+            isDrawHoleEnabled = true
+            setUsePercentValues(true)
+            setEntryLabelTextSize(12f)
+            setEntryLabelColor(Color.BLACK)
+            centerText = "Expenses by Category"
+            setCenterTextSize(24f)
+            description.isEnabled = false
+        }
+
+        val legend: Legend = binding.header.pieChart.legend
+        legend.verticalAlignment = Legend.LegendVerticalAlignment.TOP
+        legend.horizontalAlignment = Legend.LegendHorizontalAlignment.LEFT
+        legend.orientation = Legend.LegendOrientation.VERTICAL
+        legend.setDrawInside(false)
+        legend.isEnabled = true
+    }
+
+    private fun loadCharData(transactions: List<Transactions>, pieChart: PieChart){
+        val entries = ArrayList<PieEntry>()
+        transactions.forEach {
+            entries.add(PieEntry(it.amount.toFloat(),it.title ))
+        }
+
+
+        val colors = ArrayList<Int>()
+        for (color in ColorTemplate.MATERIAL_COLORS) {
+            colors.add(color)
+        }
+
+        for (color in ColorTemplate.VORDIPLOM_COLORS) {
+            colors.add(color)
+        }
+
+        val dataSet = PieDataSet(entries, "")
+        dataSet.colors = colors
+
+        val data = PieData(dataSet)
+        data.setDrawValues(true)
+        data.setValueFormatter(PercentFormatter())
+        data.setValueTextSize(12f)
+        data.setValueTextColor(Color.BLACK)
+
+        pieChart.data = data
+        pieChart.invalidate()
+
+        pieChart.animateY(1400, Easing.EaseInOutQuad)
+    }
+
 }

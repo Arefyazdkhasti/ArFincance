@@ -9,7 +9,7 @@ enum class PaymentType {
 }
 
 enum class BalanceTime {
-    DAY, MONTH, YEAR
+    DAY, WEEK, MONTH, YEAR
 }
 
 enum class CategoryType {

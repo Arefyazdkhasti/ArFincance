@@ -21,6 +21,17 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/txt_total_balance_week"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/standard_margin"
+                android:padding="@dimen/standard_margin"
+                android:text="@string/week"
+                android:textColor="@color/gray500"
+                android:textSize="@dimen/large_font"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/txt_total_balance"
@@ -49,9 +60,11 @@
             <com.github.mikephil.charting.charts.PieChart
                 android:id="@+id/pie_chart"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="350dp"
                 android:layout_margin="@dimen/standard_margin"
                 app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/total_balance" />
         </androidx.constraintlayout.widget.ConstraintLayout>

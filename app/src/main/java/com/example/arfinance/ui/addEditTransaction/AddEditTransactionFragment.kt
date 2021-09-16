@@ -124,6 +124,7 @@ class AddEditTransactionFragment : Fragment(R.layout.add_edit_transaction_fragme
                         println("EXPENSE")
                         viewModel.transactionType = TransactionType.Expense
                     }
+                    else -> viewModel.transactionType = TransactionType.Expense
                 }
             }
             paymentTypeGroup.setOnCheckedChangeListener { group, checkedId ->

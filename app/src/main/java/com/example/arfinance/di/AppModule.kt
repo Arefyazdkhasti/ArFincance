@@ -1,7 +1,6 @@
 package com.example.arfinance.di
 
 import android.content.Context
-import com.example.arfinance.data.local.CategoryDao
 import com.example.arfinance.data.local.CategoryDataBase
 import com.example.arfinance.data.local.TransactionDataBase
 import dagger.Module
@@ -36,8 +35,6 @@ object AppModule {
     @Singleton
     @Provides
     fun provideCategoryDao(db: CategoryDataBase) = db.categoryDao()
-
-
 
 
     @ApplicationScope

@@ -57,7 +57,7 @@ class AddCategoryFragment : Fragment(R.layout.add_category_fragment),CategoryIco
         }
 
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
-            viewModel.addcategoryEvent.collect { event ->
+            viewModel.addCategoryEvent.collect { event ->
                 when(event){
                     is AddCategoryViewModel.AddCategoryEvent.ShowInvalidInputMessage ->{
                         showSnackBar(requireView(), event.msg)

@@ -25,5 +25,7 @@ interface CategoryDao {
 
     @Query("SELECT * FROM Category_table WHERE id = :id")
     fun getCategoryById(id:Int): Category
-    
+
+    @Query("SELECT count(*) FROM Category_table WHERE categoryName = :categoryName")
+    fun getIsCategoryExisted(categoryName:String) : Int
 }
