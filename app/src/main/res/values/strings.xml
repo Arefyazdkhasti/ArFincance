@@ -27,4 +27,5 @@
     <string name="select_icon">Select Icon</string>
     <string name="today">Today</string>
     <string name="week">Week</string>
+    <string name="search">search</string>
 </resources>

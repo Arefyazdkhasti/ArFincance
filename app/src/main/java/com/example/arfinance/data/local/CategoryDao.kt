@@ -20,8 +20,8 @@ interface CategoryDao {
     @Query("SELECT count(id) FROM category_table")
     fun getCategoryCount(): Flow<Int>
 
-    @Query("SELECT * FROM Category_table")
-    fun getAllCategories(): Flow<List<Category>>
+    @Query("SELECT * FROM Category_table WHERE categoryName LIKE '%' || :searchQuery || '%' ORDER BY categoryName")
+    fun getAllCategories(searchQuery: String): Flow<List<Category>>
 
     @Query("SELECT * FROM Category_table WHERE id = :id")
     fun getCategoryById(id:Int): Category
