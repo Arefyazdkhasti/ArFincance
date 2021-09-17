@@ -3,12 +3,11 @@ package com.example.arfinance.ui.transactionList
 import android.app.DatePickerDialog
 import android.graphics.Color
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -17,9 +16,15 @@ import com.example.arfinance.R
 import com.example.arfinance.data.dataModel.Balance
 import com.example.arfinance.data.dataModel.Transactions
 import com.example.arfinance.databinding.TransactionListFragmentBinding
+import com.example.arfinance.ui.addEditTransaction.AddEditTransactionFragmentDirections
+import com.example.arfinance.ui.base.BottomNavigationDrawerFragment
+import com.example.arfinance.util.UiUtil
+import com.example.arfinance.util.UiUtil.Companion.showToast
 import com.example.arfinance.util.autoCleared
 import com.example.arfinance.util.enumerian.BalanceTime
 import com.example.arfinance.util.exhaustive
+import com.example.arfinance.util.interfaces.OpenAnalyticsClickListener
+import com.example.arfinance.util.interfaces.OpenCategoriesClickListener
 import com.example.arfinance.util.interfaces.OpenFullScreenListener
 import com.github.mikephil.charting.animation.Easing
 import com.github.mikephil.charting.charts.PieChart
@@ -29,6 +34,7 @@ import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.formatter.PercentFormatter
 import com.github.mikephil.charting.utils.ColorTemplate
+import com.google.android.material.navigation.NavigationView
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import dagger.hilt.android.AndroidEntryPoint
@@ -41,12 +47,13 @@ import java.util.*
 private const val DATE_KEY = "com.example.arfinance.ui.transactionList_date_key"
 
 @AndroidEntryPoint
-class TransactionListFragment : Fragment(R.layout.transaction_list_fragment) {
+class TransactionListFragment : Fragment(R.layout.transaction_list_fragment),OpenCategoriesClickListener,OpenAnalyticsClickListener {
 
     private val viewModel: TransactionListViewModel by viewModels()
     private var binding: TransactionListFragmentBinding by autoCleared()
     private val calendar = Calendar.getInstance()
     private val balance = Balance(0, BalanceTime.WEEK, 0, 0)
+    private lateinit var bottomNavDrawerFragment:BottomNavigationDrawerFragment
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -62,6 +69,8 @@ class TransactionListFragment : Fragment(R.layout.transaction_list_fragment) {
         (requireActivity() as OpenFullScreenListener).onScreenClose()
 
         val bundle = savedInstanceState?.getString(DATE_KEY)
+
+        setHasOptionsMenu(true)
 
         bindUI(bundle)
     }
@@ -81,6 +90,29 @@ class TransactionListFragment : Fragment(R.layout.transaction_list_fragment) {
                 viewModel.addNewTransactionClicked()
             }
             txtDate.setOnClickListener { showDatePickerDialog() }
+
+            bottomAppBar.apply {
+
+                //TODO handle click
+                setNavigationOnClickListener {
+                    bottomNavDrawerFragment = BottomNavigationDrawerFragment(this@TransactionListFragment,this@TransactionListFragment)
+                    bottomNavDrawerFragment.show(
+                        requireActivity().supportFragmentManager,
+                        bottomNavDrawerFragment.tag
+                    )
+                }
+
+                setOnMenuItemClickListener {
+                    if(it.itemId == R.id.setting_action){
+                        val action = TransactionListFragmentDirections.navigateToSetting()
+                        Navigation.findNavController(requireView()).navigate(action)
+                        true
+                    }else{
+                        false
+                    }
+                }
+
+            }
         }
 
         viewModel.categoryDbSize.observe(viewLifecycleOwner) {
@@ -96,8 +128,10 @@ class TransactionListFragment : Fragment(R.layout.transaction_list_fragment) {
         viewModel.transaction.observe(viewLifecycleOwner) {
             if (it.isNullOrEmpty()) {
                 binding.transactionListRecyclerView.visibility = View.GONE
+                binding.noResultImageView.visibility = View.VISIBLE
             } else {
                 binding.transactionListRecyclerView.visibility = View.VISIBLE
+                binding.noResultImageView.visibility = View.GONE
                 initTransactionsRecyclerView(
                     it.toTransactionItems(),
                     binding.transactionListRecyclerView
@@ -121,9 +155,19 @@ class TransactionListFragment : Fragment(R.layout.transaction_list_fragment) {
 
         viewModel.transactionListDateRange.observe(viewLifecycleOwner) { transactionsListByRange ->
             if (transactionsListByRange == null) return@observe
-            setupPieChart()
-            loadCharData(transactionsListByRange, binding.header.pieChart)
-
+            if (transactionsListByRange.isEmpty()) {
+                binding.header.apply {
+                    pieChart.visibility = View.GONE
+                    noDataForPieChartTxt.visibility = View.VISIBLE
+                }
+            } else {
+                binding.header.apply {
+                    pieChart.visibility = View.VISIBLE
+                    noDataForPieChartTxt.visibility = View.GONE
+                }
+                setupPieChart()
+                loadCharData(transactionsListByRange, binding.header.pieChart)
+            }
         }
 
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
@@ -250,10 +294,10 @@ class TransactionListFragment : Fragment(R.layout.transaction_list_fragment) {
         legend.isEnabled = true
     }
 
-    private fun loadCharData(transactions: List<Transactions>, pieChart: PieChart){
+    private fun loadCharData(transactions: List<Transactions>, pieChart: PieChart) {
         val entries = ArrayList<PieEntry>()
         transactions.forEach {
-            entries.add(PieEntry(it.amount.toFloat(),it.title ))
+            entries.add(PieEntry(it.amount.toFloat(), it.title))
         }
 
 
@@ -281,4 +325,15 @@ class TransactionListFragment : Fragment(R.layout.transaction_list_fragment) {
         pieChart.animateY(1400, Easing.EaseInOutQuad)
     }
 
+    override fun openAnalytics() {
+        val action = TransactionListFragmentDirections.navigateToAnalytics()
+        Navigation.findNavController(requireView()).navigate(action)
+        bottomNavDrawerFragment.dismiss()
+    }
+
+    override fun openCategories() {
+        val action = TransactionListFragmentDirections.navigateToCategoriesList()
+        Navigation.findNavController(requireView()).navigate(action)
+        bottomNavDrawerFragment.dismiss()
+    }
 }

@@ -15,6 +15,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:paddingBottom="100dp"
             >
 
             <include
@@ -30,6 +31,7 @@
                 android:layout_margin="@dimen/large_margin"
                 android:text="@string/transactions"
                 android:textSize="@dimen/large_font"
+                android:textColor="@color/black"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/header" />
 
@@ -53,7 +55,20 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/txt_transactions"
                 tools:itemCount="3"
-                tools:listitem="@layout/item_child_transaction" />
+                tools:listitem="@layout/item_child_transaction"
+                android:visibility="gone"/>
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/no_result_image_view"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/txt_transactions"
+                app:srcCompat="@drawable/no_result"
+                android:layout_margin = "@dimen/standard_margin"/>
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
 

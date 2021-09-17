@@ -16,6 +16,15 @@
             app:destination="@id/addEditTransactionFragment"
             app:popEnterAnim="@android:anim/fade_in"
             app:popExitAnim="@android:anim/fade_out" />
+        <action
+            android:id="@+id/navigateToAnalytics"
+            app:destination="@id/analyticsFragment" />
+        <action
+            android:id="@+id/navigateToCategoriesList"
+            app:destination="@id/selectCategoryFragment" />
+        <action
+            android:id="@+id/navigateToSetting"
+            app:destination="@id/settingFragment" />
     </fragment>
     <fragment
         android:id="@+id/addEditTransactionFragment"
@@ -51,7 +60,7 @@
     <fragment
         android:id="@+id/selectCategoryFragment"
         android:name="com.example.arfinance.ui.selectCategory.SelectCategoryFragment"
-        android:label="Select Category"
+        android:label="Category"
         tools:layout="@layout/select_category_fragment">
         <action
             android:id="@+id/addCategory"

@@ -28,4 +28,13 @@
     <string name="today">Today</string>
     <string name="week">Week</string>
     <string name="search">search</string>
+    <string name="no_record">No Record</string>
+    <string name="categories">Categories</string>
+    <string name="analytics">Analytics</string>
+    <string name="no_data_for_chart">No data for Chart</string>
+    <string name="income_analytics">Income Analytics</string>
+    <string name="expense_analytics">Expense Analytics</string>
+    <string name="day">day</string>
+    <string name="month">month</string>
+    <string name="year">year</string>
 </resources>
