@@ -1,0 +1,33 @@
+<resources>
+    <string-array name="theme_entries">
+        <item>@string/light</item>
+        <item>@string/dark</item>
+        <item>@string/system_default</item>
+    </string-array>
+
+    <string-array name="theme_values">
+        <item>@string/light</item>
+        <item>@string/dark</item>
+        <item>@string/system_default</item>
+    </string-array>
+
+    <string-array name="language_entries">
+        <item>English</item>
+        <item>Persian</item>
+    </string-array>
+
+    <string-array name="language_values">
+        <item>english</item>
+        <item>persian</item>
+    </string-array>
+
+    <string-array name="calender_entries">
+        <item>Gregorian Calendar</item>
+        <item>Solar Calendar</item>
+    </string-array>
+
+    <string-array name="calender_values">
+        <item>gregorian_calendar</item>
+        <item>solar_calendar</item>
+    </string-array>
+</resources>

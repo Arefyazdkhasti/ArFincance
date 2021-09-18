@@ -38,4 +38,9 @@
     <string name="month">month</string>
     <string name="year">year</string>
     <string name="expense_by_category_analytics">Expense by category Analytics</string>
+    <string name="appearance">Appearance</string>
+    <string name="general">General</string>
+    <string name="light">light</string>
+    <string name="dark">Dark</string>
+    <string name="system_default">System Default</string>
 </resources>

@@ -4,18 +4,21 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.os.BuildCompat
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupActionBarWithNavController
+import androidx.preference.PreferenceManager
 import com.example.arfinance.R
 import com.example.arfinance.databinding.ActivityMainBinding
-import com.example.arfinance.util.interfaces.OpenFullScreenListener
+import com.example.arfinance.util.UiUtil
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity(), OpenFullScreenListener {
+class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
 
@@ -29,20 +32,13 @@ class MainActivity : AppCompatActivity(), OpenFullScreenListener {
         NavigationUI.setupActionBarWithNavController(this, navController)
 
         setupActionBarWithNavController(navController)
+
+
     }
 
 
     override fun onSupportNavigateUp(): Boolean =
         findNavController(R.id.nav_host_fragment).navigateUp()
 
-    override fun onScreenOpen() {
-        /*binding.addTransactionFab.visibility = View.GONE
-        binding.bottomAppBar.visibility = View.GONE*/
-    }
-
-    override fun onScreenClose() {
-        /* binding.addTransactionFab.visibility = View.VISIBLE
-         binding.bottomAppBar.visibility = View.VISIBLE*/
-    }
 
 }

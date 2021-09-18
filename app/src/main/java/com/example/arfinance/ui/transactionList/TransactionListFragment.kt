@@ -4,12 +4,15 @@ import android.app.DatePickerDialog
 import android.graphics.Color
 import android.os.Bundle
 import android.view.*
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
+import androidx.core.os.BuildCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
+import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -18,12 +21,12 @@ import com.example.arfinance.data.dataModel.Balance
 import com.example.arfinance.data.dataModel.Transactions
 import com.example.arfinance.databinding.TransactionListFragmentBinding
 import com.example.arfinance.ui.base.BottomNavigationDrawerFragment
+import com.example.arfinance.util.UiUtil.Companion.showToast
 import com.example.arfinance.util.autoCleared
 import com.example.arfinance.util.enumerian.BalanceTime
 import com.example.arfinance.util.exhaustive
 import com.example.arfinance.util.interfaces.OpenAnalyticsClickListener
 import com.example.arfinance.util.interfaces.OpenCategoriesClickListener
-import com.example.arfinance.util.interfaces.OpenFullScreenListener
 import com.github.mikephil.charting.animation.Easing
 import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.components.Legend
@@ -55,6 +58,7 @@ class TransactionListFragment : Fragment(R.layout.transaction_list_fragment),
     private val balance = Balance(0, BalanceTime.WEEK, 0, 0)
     private lateinit var bottomNavDrawerFragment: BottomNavigationDrawerFragment
 
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -66,9 +70,6 @@ class TransactionListFragment : Fragment(R.layout.transaction_list_fragment),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        (requireActivity() as OpenFullScreenListener).onScreenClose()
-
-        //val bundle = savedInstanceState?.getString(DATE_KEY)
 
         setHasOptionsMenu(true)
 
@@ -211,7 +212,7 @@ class TransactionListFragment : Fragment(R.layout.transaction_list_fragment),
             setAction("UNDO") {
                 viewModel.undoDeleteTransaction(transition)
             }
-                .setActionTextColor(ContextCompat.getColor(requireContext(),R.color.colorAccent))
+                .setActionTextColor(ContextCompat.getColor(requireContext(), R.color.colorAccent))
             anchorView = binding.addTransactionFab
             show()
         }
@@ -375,4 +376,6 @@ class TransactionListFragment : Fragment(R.layout.transaction_list_fragment),
         Navigation.findNavController(requireView()).navigate(action)
         bottomNavDrawerFragment.dismiss()
     }
+
+
 }
