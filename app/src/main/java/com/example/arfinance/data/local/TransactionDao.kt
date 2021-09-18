@@ -2,6 +2,7 @@ package com.example.arfinance.data.local
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
+import com.example.arfinance.data.dataModel.Category
 import com.example.arfinance.data.dataModel.Transactions
 import com.example.arfinance.util.enumerian.TransactionType
 import kotlinx.coroutines.Deferred
@@ -32,4 +33,6 @@ interface TransactionDao {
     @Query("SELECT * FROM transaction_table WHERE  type = :type AND  date BETWEEN  :startDate AND :endDate")
     fun getTransactionsByDateRange(type: TransactionType, startDate: String, endDate: String): Flow<List<Transactions>>
 
+    /*@Query("SELECT * FROM transaction_table WHERE  type = :type AND categoryName = :categoryName AND date BETWEEN  :startDate AND :endDate")
+    fun getTransactionsByCategoryAndDateRange(type: TransactionType,categoryName: String, startDate: String, endDate: String): Flow<List<Transactions>>*/
 }

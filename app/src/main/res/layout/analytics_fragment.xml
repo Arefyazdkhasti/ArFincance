@@ -92,7 +92,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/toggleButtonGroup_income"
-                android:visibility="visible"/>
+                android:visibility="gone"/>
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/no_data_for_pie_chart_income_analytics"
@@ -106,7 +106,7 @@
                 app:layout_constraintTop_toBottomOf="@id/toggleButtonGroup_income"
                 android:layout_margin="@dimen/extra_margin"
                 android:textSize="@dimen/extra_font"
-                android:visibility="invisible"/>
+                android:visibility="visible"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
@@ -195,7 +195,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/toggleButtonGroup_expense"
-                android:visibility="visible"/>
+                android:visibility="gone"/>
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/no_data_for_pie_chart_expense_analytics"
@@ -209,10 +209,20 @@
                 app:layout_constraintTop_toBottomOf="@id/toggleButtonGroup_expense"
                 android:layout_margin="@dimen/extra_margin"
                 android:textSize="@dimen/extra_font"
-                android:visibility="invisible"/>
+                android:visibility="visible"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
+
+        <com.github.mikephil.charting.charts.BarChart
+            android:id="@+id/bar_chart"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="350dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/expense_card"
+            android:visibility="gone"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </ScrollView>

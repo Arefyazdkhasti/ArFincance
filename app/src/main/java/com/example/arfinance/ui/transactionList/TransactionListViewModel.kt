@@ -47,6 +47,19 @@ class TransactionListViewModel @ViewModelInject constructor(
         
     }
 
+    fun onTransactionLongClick(transaction: Transactions) = viewModelScope.launch {
+        transactionsEventChannel.send(
+            TransactionListEvent.DeleteTransaction(transaction)
+        )
+    }
+
+    fun deleteTransaction(transaction: Transactions) = viewModelScope.launch {
+        transactionDao.deleteTransaction(transaction)
+    }
+
+    fun undoDeleteTransaction(transaction: Transactions) = viewModelScope.launch {
+        transactionDao.insertTransaction(transaction)
+    }
 
     val categoryDbSize = categoryDao.getCategoryCount().asLiveData()
     fun addCategoryList() = viewModelScope.launch {
@@ -257,6 +270,7 @@ class TransactionListViewModel @ViewModelInject constructor(
     sealed class TransactionListEvent {
         object NavigateToAddTransactionScreen : TransactionListEvent()
         data class NavigateToEditTransactionScreen(val transactions: Transactions) : TransactionListEvent()
+        data class DeleteTransaction(val transaction: Transactions) : TransactionListEvent()
         // data class SelectDateToShow(val date:String): TransactionListEvent()
     }
 }

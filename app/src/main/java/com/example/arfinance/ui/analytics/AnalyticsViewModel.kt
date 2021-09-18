@@ -48,4 +48,20 @@ class AnalyticsViewModel @ViewModelInject constructor(
         transactionDao.getTransactionsByDateRange(TransactionType.Expense,startDate, endDate)
     }
     val expenseListDateRange = expenseListDateRangeFlow.asLiveData()
+
+    //bat chart
+    val barChartStartDate = state.getLiveData("barChartStartDate", "")
+    val barChartEndDate = state.getLiveData("barChartEndDate", "")
+
+
+    private val  barCharListDateRangeFlow = combine(
+        barChartStartDate.asFlow(),
+        barChartEndDate.asFlow()
+    )
+    { start, end ->
+        Pair(start, end)
+    }.flatMapLatest { (startDate, endDate) ->
+        transactionDao.getTransactionsByDateRange(TransactionType.Expense,startDate, endDate)
+    }
+    val batChartListDateRange = barCharListDateRangeFlow.asLiveData()
 }

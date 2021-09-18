@@ -4,6 +4,7 @@ import android.app.DatePickerDialog
 import android.graphics.Color
 import android.os.Bundle
 import android.view.*
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -16,10 +17,7 @@ import com.example.arfinance.R
 import com.example.arfinance.data.dataModel.Balance
 import com.example.arfinance.data.dataModel.Transactions
 import com.example.arfinance.databinding.TransactionListFragmentBinding
-import com.example.arfinance.ui.addEditTransaction.AddEditTransactionFragmentDirections
 import com.example.arfinance.ui.base.BottomNavigationDrawerFragment
-import com.example.arfinance.util.UiUtil
-import com.example.arfinance.util.UiUtil.Companion.showToast
 import com.example.arfinance.util.autoCleared
 import com.example.arfinance.util.enumerian.BalanceTime
 import com.example.arfinance.util.exhaustive
@@ -34,7 +32,8 @@ import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.formatter.PercentFormatter
 import com.github.mikephil.charting.utils.ColorTemplate
-import com.google.android.material.navigation.NavigationView
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.snackbar.Snackbar
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import dagger.hilt.android.AndroidEntryPoint
@@ -47,13 +46,14 @@ import java.util.*
 private const val DATE_KEY = "com.example.arfinance.ui.transactionList_date_key"
 
 @AndroidEntryPoint
-class TransactionListFragment : Fragment(R.layout.transaction_list_fragment),OpenCategoriesClickListener,OpenAnalyticsClickListener {
+class TransactionListFragment : Fragment(R.layout.transaction_list_fragment),
+    OpenCategoriesClickListener, OpenAnalyticsClickListener {
 
     private val viewModel: TransactionListViewModel by viewModels()
     private var binding: TransactionListFragmentBinding by autoCleared()
     private val calendar = Calendar.getInstance()
     private val balance = Balance(0, BalanceTime.WEEK, 0, 0)
-    private lateinit var bottomNavDrawerFragment:BottomNavigationDrawerFragment
+    private lateinit var bottomNavDrawerFragment: BottomNavigationDrawerFragment
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -68,21 +68,18 @@ class TransactionListFragment : Fragment(R.layout.transaction_list_fragment),Ope
         super.onViewCreated(view, savedInstanceState)
         (requireActivity() as OpenFullScreenListener).onScreenClose()
 
-        val bundle = savedInstanceState?.getString(DATE_KEY)
+        //val bundle = savedInstanceState?.getString(DATE_KEY)
 
         setHasOptionsMenu(true)
 
-        bindUI(bundle)
+        bindUI()
     }
 
-    private fun bindUI(bundle: String?) {
+    private fun bindUI() {
 
-        if (bundle != null) {
-            binding.txtDate.text = bundle
-            viewModel.dateQuery.value = bundle
-        } else {
-            viewModel.dateQuery.value = getToday()
-        }
+
+        viewModel.dateQuery.value = getToday()
+
 
         binding.apply {
             addTransactionFab.setOnClickListener {
@@ -94,7 +91,10 @@ class TransactionListFragment : Fragment(R.layout.transaction_list_fragment),Ope
             bottomAppBar.apply {
 
                 setNavigationOnClickListener {
-                    bottomNavDrawerFragment = BottomNavigationDrawerFragment(this@TransactionListFragment,this@TransactionListFragment)
+                    bottomNavDrawerFragment = BottomNavigationDrawerFragment(
+                        this@TransactionListFragment,
+                        this@TransactionListFragment
+                    )
                     bottomNavDrawerFragment.show(
                         requireActivity().supportFragmentManager,
                         bottomNavDrawerFragment.tag
@@ -102,11 +102,11 @@ class TransactionListFragment : Fragment(R.layout.transaction_list_fragment),Ope
                 }
 
                 setOnMenuItemClickListener {
-                    if(it.itemId == R.id.setting_action){
+                    if (it.itemId == R.id.setting_action) {
                         val action = TransactionListFragmentDirections.navigateToSetting()
                         Navigation.findNavController(requireView()).navigate(action)
                         true
-                    }else{
+                    } else {
                         false
                     }
                 }
@@ -125,6 +125,8 @@ class TransactionListFragment : Fragment(R.layout.transaction_list_fragment),Ope
         viewModel.balanceWeekEndDate.value = getToday()
 
         viewModel.transaction.observe(viewLifecycleOwner) {
+            binding.txtDate.text = viewModel.dateQuery.value
+
             if (it.isNullOrEmpty()) {
                 binding.transactionListRecyclerView.visibility = View.GONE
                 binding.noResultImageView.visibility = View.VISIBLE
@@ -181,9 +183,39 @@ class TransactionListFragment : Fragment(R.layout.transaction_list_fragment),Ope
                             TransactionListFragmentDirections.addEditTransaction(event.transactions)
                         findNavController().navigate(actionEdit)
                     }
+                    is TransactionListViewModel.TransactionListEvent.DeleteTransaction -> {
+                        showConfirmDeleteDialog(event.transaction)
+                    }
                 }.exhaustive
             }
         }
+    }
+
+    private fun showConfirmDeleteDialog(transition: Transactions) {
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle("Delete")
+            .setMessage("Do you want to delete this transaction?")
+            .setNegativeButton("No") { dialog, which ->
+                dialog.dismiss()
+            }
+            .setPositiveButton("Yes") { dialog, which ->
+                viewModel.deleteTransaction(transition)
+                showUndoDeleteSnackBar(transition)
+                dialog.dismiss()
+            }.show()
+    }
+
+    private fun showUndoDeleteSnackBar(transition: Transactions) {
+        val snackBar = Snackbar.make(requireView(), "Transaction Deleted", Snackbar.LENGTH_LONG)
+        snackBar.apply {
+            setAction("UNDO") {
+                viewModel.undoDeleteTransaction(transition)
+            }
+                .setActionTextColor(ContextCompat.getColor(requireContext(),R.color.colorAccent))
+            anchorView = binding.addTransactionFab
+            show()
+        }
+
     }
 
     private fun initTransactionsRecyclerView(
@@ -206,6 +238,12 @@ class TransactionListFragment : Fragment(R.layout.transaction_list_fragment),Ope
             (item as? TransactionItemRecyclerView)?.let {
                 viewModel.onTransactionSelected(it.transactions)
             }
+        }
+        groupAdapter.setOnItemLongClickListener { item, view ->
+            (item as? TransactionItemRecyclerView)?.let {
+                viewModel.onTransactionLongClick(it.transactions)
+            }
+            return@setOnItemLongClickListener true
         }
     }
 
@@ -235,10 +273,12 @@ class TransactionListFragment : Fragment(R.layout.transaction_list_fragment),Ope
     private fun setSelectedDate() {
         val selectedDate = formatDate(calendar.time)
 
-        if (selectedDate == getToday())
-            binding.txtDate.setText(R.string.today)
-        else
-            binding.txtDate.text = selectedDate
+        /* if (selectedDate == getToday())
+             binding.txtDate.setText(R.string.today)
+         else
+             binding.txtDate.text = selectedDate*/
+
+        binding.txtDate.text = selectedDate
 
         viewModel.dateQuery.value = selectedDate
 
@@ -268,11 +308,11 @@ class TransactionListFragment : Fragment(R.layout.transaction_list_fragment),Ope
         return format.format(number)
     }
 
-    //todo save day with view model
+    /*//todo save day with view model
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putString(DATE_KEY, formatDate(calendar.time))
-    }
+    }*/
 
     private fun setupPieChart() {
         binding.header.pieChart.apply {
