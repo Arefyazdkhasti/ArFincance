@@ -9,12 +9,17 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.example.arfinance.R
 import com.example.arfinance.data.dataModel.Transactions
+import com.example.arfinance.data.dataModel.TransactionsHelper
 import com.example.arfinance.databinding.AnalyticsFragmentBinding
 import com.example.arfinance.util.autoCleared
 import com.github.mikephil.charting.animation.Easing
+import com.github.mikephil.charting.charts.BarChart
 import com.github.mikephil.charting.charts.PieChart
+import com.github.mikephil.charting.components.AxisBase
 import com.github.mikephil.charting.components.Legend
+import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.*
+import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import com.github.mikephil.charting.formatter.PercentFormatter
 import com.github.mikephil.charting.utils.ColorTemplate
 import dagger.hilt.android.AndroidEntryPoint
@@ -70,7 +75,7 @@ class AnalyticsFragment : Fragment(R.layout.analytics_fragment) {
                     if (isChecked) {
                         when (checkedId) {
                             R.id.btn_expense_day -> {
-                                expenseStartDate.value = getYesterday()
+                                expenseStartDate.value = getToday()
                                 println("day")
                             }
                             R.id.btn_expense_week -> {
@@ -89,10 +94,41 @@ class AnalyticsFragment : Fragment(R.layout.analytics_fragment) {
                         }
                     }
                 }
-                /*batChartListDateRange.observe(viewLifecycleOwner){
+                toggleButtonGroupExpenseByCategory.addOnButtonCheckedListener { _, checkedId, isChecked ->
+                    if (isChecked) {
+                        when (checkedId) {
+                            R.id.btn_expense_by_category_day -> {
+                                barChartStartDate.value = getToday()
+                                println("day")
+                            }
+                            R.id.btn_expense_by_category_week -> {
+                                barChartStartDate.value = get7DaysAgo()
+                                println("week")
+
+                            }
+                            R.id.btn_expense_by_category_month -> {
+                                barChartStartDate.value = get1MonthAgo()
+                                println("month")
+                            }
+                            R.id.btn_expense_by_category_year -> {
+                                barChartStartDate.value = get1YearAgo()
+                                println("year")
+                            }
+                        }
+                    }
+                }
+                batChartListDateRange.observe(viewLifecycleOwner) {
                     if (it == null) return@observe
-                    showBarChart(it,barChart)
-                }*/
+                    if (it.isEmpty()) {
+                        barChart.visibility = View.GONE
+                        noDataForBarChartExpenseAnalytics.visibility = View.VISIBLE
+                    } else {
+                        barChart.visibility = View.VISIBLE
+                        noDataForBarChartExpenseAnalytics.visibility = View.GONE
+                        showBarChart(barChart, it)
+                    }
+                }
+
                 incomeListDateRange.observe(viewLifecycleOwner) {
                     if (it == null) return@observe
                     if (it.isEmpty()) {
@@ -101,7 +137,7 @@ class AnalyticsFragment : Fragment(R.layout.analytics_fragment) {
                     } else {
                         pieChartIncome.visibility = View.VISIBLE
                         noDataForPieChartIncomeAnalytics.visibility = View.GONE
-                        println(it.toString())
+                        //  println(it.toString())
                         setupPieChart(pieChartIncome, "Income By Category")
                         loadCharData(it, pieChartIncome)
                     }
@@ -114,7 +150,7 @@ class AnalyticsFragment : Fragment(R.layout.analytics_fragment) {
                     } else {
                         pieChartExpense.visibility = View.VISIBLE
                         noDataForPieChartExpenseAnalytics.visibility = View.GONE
-                        println(it.toString())
+                        // println(it.toString())
                         setupPieChart(pieChartExpense, "Expense By Category")
                         loadCharData(it, pieChartExpense)
                     }
@@ -345,4 +381,72 @@ class AnalyticsFragment : Fragment(R.layout.analytics_fragment) {
          // our bar chart.
          barChart.invalidate()
      }*/
+
+
+    private fun showBarChart(barChart: BarChart, list: List<TransactionsHelper>) {
+        initBarChart(barChart, list)
+
+
+        //now draw bar chart with dynamic data
+        val entries: ArrayList<BarEntry> = ArrayList()
+
+        //you can replace this data object with  your custom object
+        for (i in list.indices) {
+            val score = list[i]
+            entries.add(BarEntry(i.toFloat(), score.amount.toFloat()))
+        }
+
+        val barDataSet = BarDataSet(entries, "")
+        barDataSet.setColors(*ColorTemplate.COLORFUL_COLORS)
+
+        val data = BarData(barDataSet)
+        barChart.data = data
+
+        barChart.invalidate()
+    }
+
+    private fun initBarChart(barChart: BarChart, list: List<TransactionsHelper>) {
+
+//        hide grid lines
+        barChart.axisLeft.setDrawGridLines(false)
+        val xAxis = barChart.xAxis
+        xAxis.setDrawGridLines(false)
+        xAxis.setDrawAxisLine(false)
+
+        //remove right y-axis
+        barChart.axisRight.isEnabled = false
+
+        //remove legend
+        barChart.legend.isEnabled = false
+
+
+        //remove description label
+        barChart.description.isEnabled = false
+
+
+        //add animation
+        barChart.animateY(3000)
+
+        // to draw label on xAxis
+        xAxis.position = XAxis.XAxisPosition.BOTTOM_INSIDE
+        xAxis.valueFormatter = MyAxisFormatter(list)
+        xAxis.setDrawLabels(true)
+        xAxis.granularity = 1f
+        xAxis.labelRotationAngle = +90f
+
+    }
+
+    inner class MyAxisFormatter(private val list: List<TransactionsHelper>) :
+        IndexAxisValueFormatter() {
+
+        override fun getAxisLabel(value: Float, axis: AxisBase?): String {
+            val index = value.toInt()
+            return if (index < list.size) {
+                list[index].categoryName
+            } else {
+                ""
+            }
+        }
+    }
+
 }
