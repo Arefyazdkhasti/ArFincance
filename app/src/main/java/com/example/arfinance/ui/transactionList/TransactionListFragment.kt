@@ -93,7 +93,6 @@ class TransactionListFragment : Fragment(R.layout.transaction_list_fragment),Ope
 
             bottomAppBar.apply {
 
-                //TODO handle click
                 setNavigationOnClickListener {
                     bottomNavDrawerFragment = BottomNavigationDrawerFragment(this@TransactionListFragment,this@TransactionListFragment)
                     bottomNavDrawerFragment.show(

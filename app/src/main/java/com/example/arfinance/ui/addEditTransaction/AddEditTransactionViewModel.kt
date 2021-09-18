@@ -50,7 +50,7 @@ class AddEditTransactionViewModel @ViewModelInject constructor(
         }
 
     var transactionCategoryIcon =
-        state.get<Int>("transactionCategoryIcon") ?: transaction?.categoryIcon ?: 0
+        state.get<String>("transactionCategoryIcon") ?: transaction?.categoryIcon ?: ""
         set(value) {
             field = value
             state.set("transactionCategoryIcon", value)

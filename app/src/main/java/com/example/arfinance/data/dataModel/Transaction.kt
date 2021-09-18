@@ -15,7 +15,7 @@ data class Transactions(
     var amount: Long,
     var type: TransactionType,
     var categoryName: String,
-    var categoryIcon: Int,
+    var categoryIcon: String,
     var paymentType: PaymentType,
     var note: String,
     var date: String

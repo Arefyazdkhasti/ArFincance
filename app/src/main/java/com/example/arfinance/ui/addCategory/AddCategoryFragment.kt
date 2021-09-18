@@ -14,6 +14,7 @@ import com.example.arfinance.ui.base.CategoryBottomSheetDialog
 import com.example.arfinance.util.UiUtil.Companion.showSnackBar
 import com.example.arfinance.util.UiUtil.Companion.showToast
 import com.example.arfinance.util.autoCleared
+import com.example.arfinance.util.getURLForResource
 import com.example.arfinance.util.interfaces.CategoryIconSelectedListener
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dagger.hilt.android.AndroidEntryPoint
@@ -93,7 +94,7 @@ class AddCategoryFragment : Fragment(R.layout.add_category_fragment),CategoryIco
     }
 
     override fun selectIcon(title: String, drawable: Int) {
-        viewModel.categoryIcon = drawable
+        viewModel.categoryIcon = getURLForResource(drawable)
         binding.categoryIcon.setImageResource(drawable)
     }
 

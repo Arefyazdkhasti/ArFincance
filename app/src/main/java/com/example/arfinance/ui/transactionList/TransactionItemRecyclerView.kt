@@ -28,7 +28,9 @@ class TransactionItemRecyclerView(val transactions: Transactions) :
             transactionCategory.text = transactions.categoryName
 
 
-            transactionIcon.setImageResource(transactions.categoryIcon)
+            Glide.with(viewHolder.itemView)
+                .load(transactions.categoryIcon)
+                .into(transactionIcon)
 
             if (transactions.type == TransactionType.Expense) {
                 transactionAmount.setTextColor(

@@ -29,9 +29,8 @@ class AddCategoryViewModel @ViewModelInject constructor(
             state.set("categoryTitle", value)
         }
 
-    //todo add category type
 
-    var categoryIcon = state.get<Int>("categoryIcon") ?: category?.categoryIcon ?: 26
+    var categoryIcon = state.get<String>("categoryIcon") ?: category?.categoryIcon ?: ""
         set(value) {
             field = value
             state.set("categoryIcon", value)
@@ -44,8 +43,7 @@ class AddCategoryViewModel @ViewModelInject constructor(
         } else {
 
             //TODO check if name existed!
-            val newCategory =
-                Category(categoryName = categoryTitle, categoryIcon = categoryIcon)
+            val newCategory = Category(categoryName = categoryTitle, categoryIcon = categoryIcon)
             createTransaction(newCategory)
         }
     }

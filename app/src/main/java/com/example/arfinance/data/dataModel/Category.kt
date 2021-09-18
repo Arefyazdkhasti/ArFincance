@@ -1,5 +1,6 @@
 package com.example.arfinance.data.dataModel
 
+import android.graphics.drawable.Drawable
 import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -11,5 +12,5 @@ import kotlinx.parcelize.Parcelize
 data class Category(
     @PrimaryKey(autoGenerate = true) var id: Int = 0,
     var categoryName: String,
-    var categoryIcon: Int
+    var categoryIcon: String
 ) : Parcelable
