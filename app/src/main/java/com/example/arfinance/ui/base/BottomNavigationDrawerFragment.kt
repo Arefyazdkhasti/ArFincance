@@ -6,13 +6,15 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.arfinance.R
 import com.example.arfinance.databinding.FragmentBottomsheetBottomAppbarBinding
+import com.example.arfinance.util.interfaces.OpenAllTransactionsClickListener
 import com.example.arfinance.util.interfaces.OpenAnalyticsClickListener
 import com.example.arfinance.util.interfaces.OpenCategoriesClickListener
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 class BottomNavigationDrawerFragment(
     private val openCategoriesClickListener: OpenCategoriesClickListener,
-    private val openAnalyticsClickListener: OpenAnalyticsClickListener
+    private val openAnalyticsClickListener: OpenAnalyticsClickListener,
+    private val openAllTransactionsClickListener: OpenAllTransactionsClickListener
 ) : BottomSheetDialogFragment() {
 
     private lateinit var binding: FragmentBottomsheetBottomAppbarBinding
@@ -42,6 +44,10 @@ class BottomNavigationDrawerFragment(
                     }
                     R.id.categories_action -> {
                         openCategoriesClickListener.openCategories()
+                        true
+                    }
+                    R.id.all_transaction_action -> {
+                        openAllTransactionsClickListener.openAllTransactions()
                         true
                     }
                     else -> false

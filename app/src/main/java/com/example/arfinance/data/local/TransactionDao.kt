@@ -26,6 +26,9 @@ interface TransactionDao {
     @Query("SELECT * FROM transaction_table ORDER BY id DESC")
     fun getAllTransactions(): Flow<List<Transactions>>
 
+    @Query("SELECT date FROM transaction_table GROUP BY date ORDER BY id DESC")
+    fun getAllDates(): Flow<List<String>>
+
     @Query("SELECT * FROM transaction_table WHERE date = :date  ORDER BY id DESC")
     fun getTransactionByDate(date: String): Flow<List<Transactions>>
 

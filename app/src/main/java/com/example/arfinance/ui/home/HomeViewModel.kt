@@ -1,4 +1,4 @@
-package com.example.arfinance.ui.transactionList
+package com.example.arfinance.ui.home
 
 import androidx.hilt.Assisted
 import androidx.hilt.lifecycle.ViewModelInject
@@ -18,7 +18,7 @@ import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 
-class TransactionListViewModel @ViewModelInject constructor(
+class HomeViewModel @ViewModelInject constructor(
     private val transactionDao: TransactionDao,
     private val categoryDao: CategoryDao,
     @Assisted private val state: SavedStateHandle
@@ -36,6 +36,20 @@ class TransactionListViewModel @ViewModelInject constructor(
 
     fun addNewTransactionClicked() = viewModelScope.launch {
         transactionsEventChannel.send(TransactionListEvent.NavigateToAddTransactionScreen)
+    }
+
+    fun showAllTransactionsClicked() = viewModelScope.launch {
+        transactionsEventChannel.send(TransactionListEvent.NavigateToAllTransactionsListScreen)
+    }
+
+
+    fun analyticsClicked() = viewModelScope.launch {
+        transactionsEventChannel.send(TransactionListEvent.NavigateToAnalyticsListScreen)
+    }
+
+
+    fun categoryClicked() = viewModelScope.launch {
+        transactionsEventChannel.send(TransactionListEvent.NavigateToCategoryScreen)
     }
 
     fun onTransactionSelected(transaction: Transactions) = viewModelScope.launch {
@@ -269,6 +283,9 @@ class TransactionListViewModel @ViewModelInject constructor(
 
     sealed class TransactionListEvent {
         object NavigateToAddTransactionScreen : TransactionListEvent()
+        object NavigateToAllTransactionsListScreen : TransactionListEvent()
+        object NavigateToCategoryScreen : TransactionListEvent()
+        object NavigateToAnalyticsListScreen : TransactionListEvent()
         data class NavigateToEditTransactionScreen(val transactions: Transactions) : TransactionListEvent()
         data class DeleteTransaction(val transaction: Transactions) : TransactionListEvent()
         // data class SelectDateToShow(val date:String): TransactionListEvent()

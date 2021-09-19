@@ -1,4 +1,4 @@
-package com.example.arfinance.ui.transactionList
+package com.example.arfinance.ui.home
 
 import android.app.DatePickerDialog
 import android.graphics.Color
@@ -6,27 +6,24 @@ import android.os.Bundle
 import android.view.*
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.AnimationUtils
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
-import androidx.core.os.BuildCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
-import androidx.preference.PreferenceManager
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.arfinance.R
 import com.example.arfinance.data.dataModel.Balance
 import com.example.arfinance.data.dataModel.Transactions
-import com.example.arfinance.databinding.TransactionListFragmentBinding
+import com.example.arfinance.databinding.HomeFragmentBinding
 import com.example.arfinance.ui.base.BottomNavigationDrawerFragment
-import com.example.arfinance.util.UiUtil.Companion.showToast
 import com.example.arfinance.util.autoCleared
 import com.example.arfinance.util.enumerian.BalanceTime
 import com.example.arfinance.util.exhaustive
+import com.example.arfinance.util.interfaces.OpenAllTransactionsClickListener
 import com.example.arfinance.util.interfaces.OpenAnalyticsClickListener
 import com.example.arfinance.util.interfaces.OpenCategoriesClickListener
 import com.example.arfinance.util.startMyAnimation
@@ -47,17 +44,16 @@ import kotlinx.coroutines.flow.collect
 import java.text.NumberFormat
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.math.exp
 
 
-private const val DATE_KEY = "com.example.arfinance.ui.transactionList_date_key"
+//private const val DATE_KEY = "com.example.arfinance.ui.transactionList_date_key"
 
 @AndroidEntryPoint
-class TransactionListFragment : Fragment(R.layout.transaction_list_fragment),
-    OpenCategoriesClickListener, OpenAnalyticsClickListener {
+class TransactionListFragment : Fragment(R.layout.home_fragment),
+    OpenCategoriesClickListener, OpenAnalyticsClickListener, OpenAllTransactionsClickListener {
 
-    private val viewModel: TransactionListViewModel by viewModels()
-    private var binding: TransactionListFragmentBinding by autoCleared()
+    private val viewModel: HomeViewModel by viewModels()
+    private var binding: HomeFragmentBinding by autoCleared()
     private val calendar = Calendar.getInstance()
     private val balance = Balance(0, BalanceTime.WEEK, 0, 0)
     private lateinit var bottomNavDrawerFragment: BottomNavigationDrawerFragment
@@ -68,7 +64,7 @@ class TransactionListFragment : Fragment(R.layout.transaction_list_fragment),
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = TransactionListFragmentBinding.inflate(inflater, container, false)
+        binding = HomeFragmentBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -85,10 +81,11 @@ class TransactionListFragment : Fragment(R.layout.transaction_list_fragment),
 
         viewModel.dateQuery.value = getToday()
 
-        val animation = AnimationUtils.loadAnimation(requireContext(),R.anim.fab_explosion_anim).apply {
-            duration = 700
-            interpolator = AccelerateDecelerateInterpolator()
-        }
+        val animation =
+            AnimationUtils.loadAnimation(requireContext(), R.anim.fab_explosion_anim).apply {
+                duration = 700
+                interpolator = AccelerateDecelerateInterpolator()
+            }
 
         binding.apply {
             addTransactionFab.setOnClickListener {
@@ -97,17 +94,20 @@ class TransactionListFragment : Fragment(R.layout.transaction_list_fragment),
                 addTransactionFab.visibility = View.INVISIBLE
                 explosionCircle.visibility = View.VISIBLE
 
-                explosionCircle.startMyAnimation(animation){
+                explosionCircle.startMyAnimation(animation) {
                     explosionCircle.visibility = View.INVISIBLE
                     viewModel.addNewTransactionClicked()
                 }
             }
             txtDate.setOnClickListener { showDatePickerDialog() }
 
+            txtTransactions.setOnClickListener { viewModel.showAllTransactionsClicked() }
+
             bottomAppBar.apply {
 
                 setNavigationOnClickListener {
                     bottomNavDrawerFragment = BottomNavigationDrawerFragment(
+                        this@TransactionListFragment,
                         this@TransactionListFragment,
                         this@TransactionListFragment
                     )
@@ -190,17 +190,30 @@ class TransactionListFragment : Fragment(R.layout.transaction_list_fragment),
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.transactionEvent.collect { event ->
                 when (event) {
-                    is TransactionListViewModel.TransactionListEvent.NavigateToAddTransactionScreen -> {
+                    is HomeViewModel.TransactionListEvent.NavigateToAddTransactionScreen -> {
                         val actionAdd = TransactionListFragmentDirections.addEditTransaction()
                         findNavController().navigate(actionAdd)
                     }
-                    is TransactionListViewModel.TransactionListEvent.NavigateToEditTransactionScreen -> {
+                    is HomeViewModel.TransactionListEvent.NavigateToEditTransactionScreen -> {
                         val actionEdit =
                             TransactionListFragmentDirections.addEditTransaction(event.transactions)
                         findNavController().navigate(actionEdit)
                     }
-                    is TransactionListViewModel.TransactionListEvent.DeleteTransaction -> {
+                    is HomeViewModel.TransactionListEvent.DeleteTransaction -> {
                         showConfirmDeleteDialog(event.transaction)
+                    }
+                    is HomeViewModel.TransactionListEvent.NavigateToAllTransactionsListScreen -> {
+                        val actionSeeAll =
+                            TransactionListFragmentDirections.navigateToAllTransactionsList()
+                        findNavController().navigate(actionSeeAll)
+                    }
+                    is HomeViewModel.TransactionListEvent.NavigateToAnalyticsListScreen -> {
+                        val action = TransactionListFragmentDirections.navigateToAnalytics()
+                        Navigation.findNavController(requireView()).navigate(action)
+                    }
+                     is HomeViewModel.TransactionListEvent.NavigateToCategoryScreen -> {
+                        val action = TransactionListFragmentDirections.navigateToCategoriesList()
+                        Navigation.findNavController(requireView()).navigate(action)
                     }
                 }.exhaustive
             }
@@ -381,14 +394,17 @@ class TransactionListFragment : Fragment(R.layout.transaction_list_fragment),
     }
 
     override fun openAnalytics() {
-        val action = TransactionListFragmentDirections.navigateToAnalytics()
-        Navigation.findNavController(requireView()).navigate(action)
+        viewModel.analyticsClicked()
         bottomNavDrawerFragment.dismiss()
     }
 
     override fun openCategories() {
-        val action = TransactionListFragmentDirections.navigateToCategoriesList()
-        Navigation.findNavController(requireView()).navigate(action)
+        viewModel.categoryClicked()
+        bottomNavDrawerFragment.dismiss()
+    }
+
+    override fun openAllTransactions() {
+        viewModel.showAllTransactionsClicked()
         bottomNavDrawerFragment.dismiss()
     }
 

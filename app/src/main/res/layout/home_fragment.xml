@@ -55,7 +55,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/txt_transactions"
                 tools:itemCount="3"
-                tools:listitem="@layout/item_child_transaction"
+                tools:listitem="@layout/item_transaction"
                 android:visibility="gone"/>
 
             <androidx.appcompat.widget.AppCompatImageView

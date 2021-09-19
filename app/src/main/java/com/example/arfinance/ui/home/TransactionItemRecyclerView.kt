@@ -1,27 +1,23 @@
-package com.example.arfinance.ui.transactionList
+package com.example.arfinance.ui.home
 
 import android.annotation.SuppressLint
 import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
 import com.example.arfinance.R
 import com.example.arfinance.data.dataModel.Transactions
-import com.example.arfinance.data.local.CategoryDao
-import com.example.arfinance.databinding.ItemChildTransactionBinding
+import com.example.arfinance.databinding.ItemTransactionBinding
 import com.example.arfinance.util.enumerian.TransactionType
 import com.xwray.groupie.GroupieViewHolder
 import com.xwray.groupie.Item
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
 
 class TransactionItemRecyclerView(val transactions: Transactions) :
     Item<GroupieViewHolder>() {
 
-    override fun getLayout(): Int = R.layout.item_child_transaction
+    override fun getLayout(): Int = R.layout.item_transaction
     @SuppressLint("SetTextI18n")
     override fun bind(viewHolder: GroupieViewHolder, position: Int) {
 
-        val binding = ItemChildTransactionBinding.bind(viewHolder.itemView)
+        val binding = ItemTransactionBinding.bind(viewHolder.itemView)
 
         binding.apply {
             transactionTitle.text = transactions.title

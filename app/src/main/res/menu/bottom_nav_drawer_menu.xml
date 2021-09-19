@@ -10,5 +10,9 @@
             android:id="@+id/analytics_action"
             android:icon="@drawable/ic_analytics"
             android:title="@string/analytics" />
+
+        <item android:id="@+id/all_transaction_action"
+            android:icon="@drawable/ic_view_list"
+            android:title="@string/see_all_transactions"/>
     </group>
 </menu>

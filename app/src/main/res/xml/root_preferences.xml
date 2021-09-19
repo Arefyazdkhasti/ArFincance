@@ -10,7 +10,7 @@
             app:defaultValue="@string/system_default"
             app:entries="@array/theme_entries"
             app:entryValues="@array/theme_values"
-            app:title="App Theme"
+            app:title="@string/app_theme"
            app:useSimpleSummaryProvider="true"
             />
     </PreferenceCategory>
@@ -22,7 +22,7 @@
             app:defaultValue="@string/english"
             app:entries="@array/language_entries"
             app:entryValues="@array/language_values"
-            app:title="Language"
+            app:title="@string/language"
             app:useSimpleSummaryProvider="true"
 
             />
@@ -32,7 +32,7 @@
             app:defaultValue="@string/gregorian_calendar"
             app:entries="@array/calender_entries"
             app:entryValues="@array/calender_values"
-            app:title="Calender"
+            app:title="@string/calender"
             app:useSimpleSummaryProvider="true"
             />
     </PreferenceCategory>

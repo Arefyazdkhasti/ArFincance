@@ -7,9 +7,9 @@
 
     <fragment
         android:id="@+id/TransactionListFragment"
-        android:name="com.example.arfinance.ui.transactionList.TransactionListFragment"
+        android:name="com.example.arfinance.ui.home.TransactionListFragment"
         android:label="ArFinance"
-        tools:layout="@layout/transaction_list_fragment">
+        tools:layout="@layout/home_fragment">
 
         <action
             android:id="@+id/addEditTransaction"
@@ -25,11 +25,14 @@
         <action
             android:id="@+id/navigateToSetting"
             app:destination="@id/settingsFragment" />
+        <action
+            android:id="@+id/navigateToAllTransactionsList"
+            app:destination="@id/allTransactionListFragment" />
     </fragment>
     <fragment
         android:id="@+id/addEditTransactionFragment"
         android:name="com.example.arfinance.ui.addEditTransaction.AddEditTransactionFragment"
-        android:label="Add Transaction"
+        android:label="@string/add_transaction"
         tools:layout="@layout/add_edit_transaction_fragment">
         <argument
             android:name="transaction"
@@ -45,7 +48,7 @@
     <fragment
         android:id="@+id/analyticsFragment"
         android:name="com.example.arfinance.ui.analytics.AnalyticsFragment"
-        android:label="Analytics"
+        android:label="@string/analytics"
         tools:layout="@layout/analytics_fragment" />
     <fragment
         android:id="@+id/addCategoryFragment"
@@ -55,7 +58,7 @@
     <fragment
         android:id="@+id/selectCategoryFragment"
         android:name="com.example.arfinance.ui.selectCategory.SelectCategoryFragment"
-        android:label="Category"
+        android:label="@string/category"
         tools:layout="@layout/select_category_fragment">
         <action
             android:id="@+id/addCategory"
@@ -66,6 +69,11 @@
     <fragment
         android:id="@+id/settingsFragment"
         android:name="com.example.arfinance.ui.setting.SettingsFragment"
-        android:label="SettingsFragment" />
+        android:label="@string/setting" />
+    <fragment
+        android:id="@+id/allTransactionListFragment"
+        android:name="com.example.arfinance.ui.allTransactionList.AllTransactionListFragment"
+        android:label="@string/see_all_transactions"
+        tools:layout="@layout/fragment_all_transaction_list" />
 
 </navigation>

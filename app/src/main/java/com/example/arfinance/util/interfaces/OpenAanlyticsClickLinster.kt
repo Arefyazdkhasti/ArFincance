@@ -7,3 +7,7 @@ interface OpenAnalyticsClickListener {
 interface OpenCategoriesClickListener {
     fun openCategories()
 }
+
+interface OpenAllTransactionsClickListener {
+    fun openAllTransactions()
+}

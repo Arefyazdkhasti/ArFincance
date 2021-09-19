@@ -32,6 +32,7 @@
     <string name="no_record">رکوردی یافت نشد</string>
     <string name="categories">دسته بندی ها</string>
     <string name="analytics">آنالیز داده ها</string>
+    <string name="see_all_transactions">همه تراکنش ها</string>
     <string name="no_data_for_chart">داده ای برای نمودار یافت نشد</string>
     <string name="income_analytics">آنالیز درآمدها</string>
     <string name="expense_analytics">آنالیز مخارج</string>
@@ -54,5 +55,7 @@
     <string name="calender_key">calender</string>
     <string name="add_transaction">افزودن تراکنش</string>
     <string name="add_category">افزودن دسته بندی</string>
-
+    <string name="app_theme">تم برنامه</string>
+    <string name="language">زبان</string>
+    <string name="calender">تقویم</string>
 </resources>

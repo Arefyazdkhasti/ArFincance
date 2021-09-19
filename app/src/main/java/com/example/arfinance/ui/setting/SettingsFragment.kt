@@ -28,13 +28,13 @@ class SettingsFragment : PreferenceFragmentCompat() {
         newValue as? String
         when (newValue) {
             getString(R.string.english) -> {
-                setLocale(requireActivity(),"en")
+                setLocale(requireActivity(), "en")
             }
-            getString(R.string.persian) ->{
-                setLocale(requireActivity(),"fa")
+            getString(R.string.persian) -> {
+                setLocale(requireActivity(), "fa")
             }
             else -> {
-                setLocale(requireActivity(),"en")
+                setLocale(requireActivity(), "en")
             }
         }
         true
