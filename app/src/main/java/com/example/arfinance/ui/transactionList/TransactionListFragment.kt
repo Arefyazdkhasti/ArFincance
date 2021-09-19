@@ -4,6 +4,8 @@ import android.app.DatePickerDialog
 import android.graphics.Color
 import android.os.Bundle
 import android.view.*
+import android.view.animation.AccelerateDecelerateInterpolator
+import android.view.animation.AnimationUtils
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
 import androidx.core.os.BuildCompat
@@ -27,6 +29,7 @@ import com.example.arfinance.util.enumerian.BalanceTime
 import com.example.arfinance.util.exhaustive
 import com.example.arfinance.util.interfaces.OpenAnalyticsClickListener
 import com.example.arfinance.util.interfaces.OpenCategoriesClickListener
+import com.example.arfinance.util.startMyAnimation
 import com.github.mikephil.charting.animation.Easing
 import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.components.Legend
@@ -44,6 +47,7 @@ import kotlinx.coroutines.flow.collect
 import java.text.NumberFormat
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.math.exp
 
 
 private const val DATE_KEY = "com.example.arfinance.ui.transactionList_date_key"
@@ -81,11 +85,22 @@ class TransactionListFragment : Fragment(R.layout.transaction_list_fragment),
 
         viewModel.dateQuery.value = getToday()
 
+        val animation = AnimationUtils.loadAnimation(requireContext(),R.anim.fab_explosion_anim).apply {
+            duration = 700
+            interpolator = AccelerateDecelerateInterpolator()
+        }
 
         binding.apply {
             addTransactionFab.setOnClickListener {
                 if (it == null) return@setOnClickListener
-                viewModel.addNewTransactionClicked()
+
+                addTransactionFab.visibility = View.INVISIBLE
+                explosionCircle.visibility = View.VISIBLE
+
+                explosionCircle.startMyAnimation(animation){
+                    explosionCircle.visibility = View.INVISIBLE
+                    viewModel.addNewTransactionClicked()
+                }
             }
             txtDate.setOnClickListener { showDatePickerDialog() }
 

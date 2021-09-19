@@ -95,6 +95,16 @@
         app:fabSize="normal"
         app:layout_anchor="@id/bottom_app_bar"
         app:srcCompat="@drawable/ic_add" />
+
+    <View
+        android:id="@+id/explosion_circle"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        app:layout_anchor="@+id/add_transaction_fab"
+        app:layout_anchorGravity="center"
+        android:visibility="invisible"
+        android:background="@drawable/circle"
+        />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 

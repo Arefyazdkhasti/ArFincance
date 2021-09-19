@@ -7,8 +7,8 @@ import androidx.core.os.BuildCompat
 import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
-import androidx.preference.PreferenceManager
 import com.example.arfinance.R
+import com.example.arfinance.util.setLocale
 
 class SettingsFragment : PreferenceFragmentCompat() {
 
@@ -16,12 +16,32 @@ class SettingsFragment : PreferenceFragmentCompat() {
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.root_preferences, rootKey)
 
-        val preference = findPreference<ListPreference>("theme")
-        preference?.onPreferenceChangeListener = modeChangeListener
+        val themePreference = findPreference<ListPreference>(getString(R.string.theme_key))
+        themePreference?.onPreferenceChangeListener = themeChangeListener
+
+        val languagePreference = findPreference<ListPreference>(getString(R.string.language_key))
+        languagePreference?.onPreferenceChangeListener = languageChangeListener
     }
 
-    private val modeChangeListener =
-        Preference.OnPreferenceChangeListener { preference, newValue ->
+    private val languageChangeListener = Preference.OnPreferenceChangeListener { _, newValue ->
+        Log.i("newValue", newValue.toString())
+        newValue as? String
+        when (newValue) {
+            getString(R.string.english) -> {
+                setLocale(requireActivity(),"en")
+            }
+            getString(R.string.persian) ->{
+                setLocale(requireActivity(),"fa")
+            }
+            else -> {
+                setLocale(requireActivity(),"en")
+            }
+        }
+        true
+    }
+
+    private val themeChangeListener =
+        Preference.OnPreferenceChangeListener { _, newValue ->
             Log.i("newValue", newValue.toString())
             newValue as? String
             when (newValue) {
@@ -33,9 +53,9 @@ class SettingsFragment : PreferenceFragmentCompat() {
                 }
                 else -> {
                     if (BuildCompat.isAtLeastQ()) {
-                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
                     } else {
-                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY);
+                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY)
                     }
                 }
             }

@@ -1,34 +1,39 @@
-<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
     <PreferenceCategory app:title="@string/appearance"
         app:icon="@drawable/ic_appearance_24">
 
 
         <ListPreference
-            app:key="theme"
+            app:key="@string/theme_key"
             app:defaultValue="@string/system_default"
             app:entries="@array/theme_entries"
             app:entryValues="@array/theme_values"
             app:title="App Theme"
+           app:useSimpleSummaryProvider="true"
             />
     </PreferenceCategory>
 
     <PreferenceCategory app:title="@string/general"
         app:icon="@drawable/ic_settings_red">
         <ListPreference
-            app:key="language"
-            app:defaultValue="English"
+            app:key="@string/language_key"
+            app:defaultValue="@string/english"
             app:entries="@array/language_entries"
             app:entryValues="@array/language_values"
             app:title="Language"
+            app:useSimpleSummaryProvider="true"
+
             />
 
         <ListPreference
-            app:key="calender"
-            app:defaultValue="Gregorian Calendar"
+            app:key="@string/calender_key"
+            app:defaultValue="@string/gregorian_calendar"
             app:entries="@array/calender_entries"
             app:entryValues="@array/calender_values"
             app:title="Calender"
+            app:useSimpleSummaryProvider="true"
             />
     </PreferenceCategory>
 

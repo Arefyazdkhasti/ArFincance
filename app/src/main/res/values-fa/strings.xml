@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ArFinance</string>
+    <string name="setting">تنظیمات</string>
+    <string name="total_balance">کل بالانس </string>
+    <string name="total_income">کل درآمد در  هفته</string>
+    <string name="total_expense">کل مخارج در هفته</string>
+    <string name="transactions">تراکنش ها</string>
+    <string name="title">عنوان</string>
+    <string name="income">درآمد</string>
+    <string name="expense">مخارج</string>
+    <string name="cash">نقد</string>
+    <string name="credit_card">کارت عابربانک</string>
+    <string name="transaction_type">نوع تراکنش</string>
+    <string name="payment_type">نوع پرداخت</string>
+    <string name="amount">میزان</string>
+    <string name="date">روز</string>
+    <string name="category">دسته بندی</string>
+    <string name="note">یادداشت</string>
+    <string name="save">ذخیره</string>
+    <string name="add">افزودن</string>
+    <string name="add_category_desc">افزودن دسته بندی</string>
+    <string name="category_title">عنوان دسته بندی</string>
+    <string name="category_type">نوع دسته بندی</string>
+    <string name="spending">خرج</string>
+    <string name="profit">سود</string>
+    <string name="choose_category_icon">آیکون دسته بندی را انتخاب کنید</string>
+    <string name="select_icon">انتخاب آیکون</string>
+    <string name="today">امروز</string>
+    <string name="week">هفته</string>
+    <string name="search">جست و جو</string>
+    <string name="no_record">رکوردی یافت نشد</string>
+    <string name="categories">دسته بندی ها</string>
+    <string name="analytics">آنالیز داده ها</string>
+    <string name="no_data_for_chart">داده ای برای نمودار یافت نشد</string>
+    <string name="income_analytics">آنالیز درآمدها</string>
+    <string name="expense_analytics">آنالیز مخارج</string>
+    <string name="day">روز</string>
+    <string name="month">ماه</string>
+    <string name="year">سال</string>
+    <string name="expense_by_category_analytics">آنالیز مخارج با دسته بندی</string>
+    <string name="appearance">ظاهر</string>
+    <string name="general">عمومی</string>
+    <string name="light">روشن</string>
+    <string name="dark">تاریک</string>
+    <string name="system_default">مطابق دستگاه</string>
+    <string name="english">انگلیسی</string>
+    <string name="persian">فارسی</string>
+    <string name="gregorian_calendar">تقویم میلادی</string>
+    <string name="solar_calendar">تقویم شمسی</string>
+
+    <string name="theme_key">theme</string>
+    <string name="language_key">language</string>
+    <string name="calender_key">calender</string>
+    <string name="add_transaction">افزودن تراکنش</string>
+    <string name="add_category">افزودن دسته بندی</string>
+
+</resources>

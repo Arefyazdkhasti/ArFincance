@@ -1,9 +1,14 @@
 package com.example.arfinance.util
 
+import android.app.Activity
 import android.content.Context
+import android.content.res.Configuration
 import android.net.Uri
+import android.view.View
+import android.view.animation.Animation
 import androidx.appcompat.widget.SearchView
 import com.example.arfinance.BuildConfig
+import java.util.*
 
 
 val <T> T.exhaustive: T
@@ -21,12 +26,32 @@ inline fun SearchView.onQueryTextChanged(crossinline listener: (String) -> Unit)
         }
     })
 }
+fun View.startMyAnimation(animation: Animation, onEnd: () -> Unit) {
+    animation.setAnimationListener(object : Animation.AnimationListener {
+        override fun onAnimationStart(animation: Animation?) = Unit
 
+        override fun onAnimationEnd(animation: Animation?) {
+            onEnd()
+        }
+
+        override fun onAnimationRepeat(animation: Animation?) = Unit
+    })
+    this.startAnimation(animation)
+}
 
 fun getURLForResource(resourceId: Int): String {
     //use BuildConfig.APPLICATION_ID instead of R.class.getPackage().getName() if both are not same
     return Uri.parse("android.resource://" + BuildConfig.APPLICATION_ID + "/" + resourceId)
         .toString()
+}
+
+fun setLocale(activity: Activity, languageCode: String) {
+    val locale = Locale(languageCode)
+    Locale.setDefault(locale)
+    val resources = activity.resources
+    val config: Configuration = resources.configuration
+    config.setLocale(locale)
+    resources.updateConfiguration(config, resources.displayMetrics)
 }
 
 fun drawbleToString(context: Context) {
