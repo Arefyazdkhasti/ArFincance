@@ -11,7 +11,7 @@
             app:entries="@array/theme_entries"
             app:entryValues="@array/theme_values"
             app:title="@string/app_theme"
-           app:useSimpleSummaryProvider="true"
+            app:useSimpleSummaryProvider="true"
             />
     </PreferenceCategory>
 
@@ -24,7 +24,6 @@
             app:entryValues="@array/language_values"
             app:title="@string/language"
             app:useSimpleSummaryProvider="true"
-
             />
 
         <ListPreference

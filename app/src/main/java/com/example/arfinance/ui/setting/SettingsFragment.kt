@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.os.BuildCompat
+import androidx.navigation.fragment.findNavController
 import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
@@ -11,7 +12,6 @@ import com.example.arfinance.R
 import com.example.arfinance.util.setLocale
 
 class SettingsFragment : PreferenceFragmentCompat() {
-
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.root_preferences, rootKey)
@@ -21,9 +21,10 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
         val languagePreference = findPreference<ListPreference>(getString(R.string.language_key))
         languagePreference?.onPreferenceChangeListener = languageChangeListener
+
     }
 
-    private val languageChangeListener = Preference.OnPreferenceChangeListener { _, newValue ->
+    private val languageChangeListener = Preference.OnPreferenceChangeListener { preference, newValue ->
         Log.i("newValue", newValue.toString())
         newValue as? String
         when (newValue) {
@@ -37,11 +38,12 @@ class SettingsFragment : PreferenceFragmentCompat() {
                 setLocale(requireActivity(), "en")
             }
         }
+            findNavController().navigateUp()
         true
     }
 
     private val themeChangeListener =
-        Preference.OnPreferenceChangeListener { _, newValue ->
+        Preference.OnPreferenceChangeListener { preference, newValue ->
             Log.i("newValue", newValue.toString())
             newValue as? String
             when (newValue) {
@@ -59,6 +61,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
                     }
                 }
             }
+            findNavController().navigateUp()
             true
         }
 
@@ -67,6 +70,4 @@ class SettingsFragment : PreferenceFragmentCompat() {
         requireActivity().recreate()
         return true
     }
-
-
 }

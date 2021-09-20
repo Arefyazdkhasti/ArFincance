@@ -40,7 +40,8 @@
             android:textSize="@dimen/large_font"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/outlinedTextField1" />
+            app:layout_constraintTop_toBottomOf="@+id/outlinedTextField1"
+            android:visibility="gone"/>
 
 
         <com.google.android.material.chip.ChipGroup
@@ -52,7 +53,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/txt_category_type"
             app:singleLine="true"
-            app:singleSelection="true">
+            app:singleSelection="true"
+            android:visibility="gone">
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/spending"
