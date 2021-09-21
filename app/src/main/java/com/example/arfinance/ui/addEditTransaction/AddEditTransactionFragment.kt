@@ -13,18 +13,16 @@ import androidx.navigation.fragment.findNavController
 import com.example.arfinance.R
 import com.example.arfinance.data.dataModel.Category
 import com.example.arfinance.databinding.AddEditTransactionFragmentBinding
-import com.example.arfinance.util.UiUtil
+import com.example.arfinance.util.*
 import com.example.arfinance.util.UiUtil.Companion.showSnackBar
 import com.example.arfinance.util.UiUtil.Companion.showToast
-import com.example.arfinance.util.autoCleared
 import com.example.arfinance.util.enumerian.PaymentType
 import com.example.arfinance.util.enumerian.TransactionType
-import com.example.arfinance.util.exhaustive
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.math.exp
+
 
 const val CATEGORY_REQUEST_KEY = "com.example.arfinance.ui.addEditTransaction_category_request_key"
 const val CATEGORY_BUNDLE = "com.example.arfinance.ui.addEditTransaction_category_bundle"
@@ -86,8 +84,9 @@ class AddEditTransactionFragment : Fragment(R.layout.add_edit_transaction_fragme
             }
 
             amount.addTextChangedListener {
-                if (!it.isNullOrEmpty())
+                if (!it.isNullOrEmpty()) {
                     viewModel.transactionAmount = it.toString().toLong()
+                }
             }
 
             date.apply {

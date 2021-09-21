@@ -1,7 +1,6 @@
 package com.example.arfinance.ui.home
 
 import android.app.DatePickerDialog
-import android.graphics.Color
 import android.os.Bundle
 import android.view.*
 import android.view.animation.AccelerateDecelerateInterpolator
@@ -27,29 +26,19 @@ import com.example.arfinance.util.interfaces.OpenAllTransactionsClickListener
 import com.example.arfinance.util.interfaces.OpenAnalyticsClickListener
 import com.example.arfinance.util.interfaces.OpenCategoriesClickListener
 import com.example.arfinance.util.startMyAnimation
-import com.github.mikephil.charting.animation.Easing
-import com.github.mikephil.charting.charts.PieChart
-import com.github.mikephil.charting.components.Legend
-import com.github.mikephil.charting.data.PieData
-import com.github.mikephil.charting.data.PieDataSet
-import com.github.mikephil.charting.data.PieEntry
-import com.github.mikephil.charting.formatter.PercentFormatter
-import com.github.mikephil.charting.utils.ColorTemplate
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
-import java.text.NumberFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
 
-//private const val DATE_KEY = "com.example.arfinance.ui.transactionList_date_key"
 
 @AndroidEntryPoint
-class TransactionListFragment : Fragment(R.layout.home_fragment),
+class HomeFragment : Fragment(R.layout.home_fragment),
     OpenCategoriesClickListener, OpenAnalyticsClickListener, OpenAllTransactionsClickListener {
 
     private val viewModel: HomeViewModel by viewModels()
@@ -107,9 +96,9 @@ class TransactionListFragment : Fragment(R.layout.home_fragment),
 
                 setNavigationOnClickListener {
                     bottomNavDrawerFragment = BottomNavigationDrawerFragment(
-                        this@TransactionListFragment,
-                        this@TransactionListFragment,
-                        this@TransactionListFragment
+                        this@HomeFragment,
+                        this@HomeFragment,
+                        this@HomeFragment
                     )
                     bottomNavDrawerFragment.show(
                         requireActivity().supportFragmentManager,
@@ -119,7 +108,7 @@ class TransactionListFragment : Fragment(R.layout.home_fragment),
 
                 setOnMenuItemClickListener {
                     if (it.itemId == R.id.setting_action) {
-                        val action = TransactionListFragmentDirections.navigateToSetting()
+                        val action = HomeFragmentDirections.navigateToSetting()
                         Navigation.findNavController(requireView()).navigate(action)
                         true
                     } else {
@@ -158,32 +147,34 @@ class TransactionListFragment : Fragment(R.layout.home_fragment),
 
         viewModel.balanceIncomeWeek.observe(viewLifecycleOwner) {
             if (it == null) return@observe
-            binding.header.income.text = moneyFormatter(it.toLong())
             balance.income = it
-
+            println(it)
+            binding.header.formatIncome( it.toLong())
         }
         viewModel.balanceExpenseWeek.observe(viewLifecycleOwner) {
             if (it == null) return@observe
-            binding.header.expense.text = moneyFormatter(it.toLong())
-            balance.expense = it
+            println(it)
 
-            binding.header.totalBalance.text = moneyFormatter(balance.getBalance())
+            binding.header.formatExpense(it.toLong())
+
+            balance.expense = it
+            println(balance.getBalance())
+            binding.header.formatBalance( balance.getBalance())
+
         }
 
         viewModel.transactionListDateRange.observe(viewLifecycleOwner) { transactionsListByRange ->
             if (transactionsListByRange == null) return@observe
             if (transactionsListByRange.isEmpty()) {
                 binding.header.apply {
-                    pieChart.visibility = View.GONE
-                    noDataForPieChartTxt.visibility = View.VISIBLE
+                    binding.header.hideChart()
                 }
             } else {
                 binding.header.apply {
-                    pieChart.visibility = View.VISIBLE
-                    noDataForPieChartTxt.visibility = View.GONE
+                   binding.header.showChart()
                 }
-                setupPieChart()
-                loadCharData(transactionsListByRange, binding.header.pieChart)
+                binding.header.setupPieChart()
+                binding.header.loadCharData(transactionsListByRange)
             }
         }
 
@@ -191,12 +182,12 @@ class TransactionListFragment : Fragment(R.layout.home_fragment),
             viewModel.transactionEvent.collect { event ->
                 when (event) {
                     is HomeViewModel.TransactionListEvent.NavigateToAddTransactionScreen -> {
-                        val actionAdd = TransactionListFragmentDirections.addEditTransaction()
+                        val actionAdd = HomeFragmentDirections.addEditTransaction()
                         findNavController().navigate(actionAdd)
                     }
                     is HomeViewModel.TransactionListEvent.NavigateToEditTransactionScreen -> {
                         val actionEdit =
-                            TransactionListFragmentDirections.addEditTransaction(event.transactions)
+                            HomeFragmentDirections.addEditTransaction(event.transactions)
                         findNavController().navigate(actionEdit)
                     }
                     is HomeViewModel.TransactionListEvent.DeleteTransaction -> {
@@ -204,15 +195,15 @@ class TransactionListFragment : Fragment(R.layout.home_fragment),
                     }
                     is HomeViewModel.TransactionListEvent.NavigateToAllTransactionsListScreen -> {
                         val actionSeeAll =
-                            TransactionListFragmentDirections.navigateToAllTransactionsList()
+                            HomeFragmentDirections.navigateToAllTransactionsList()
                         findNavController().navigate(actionSeeAll)
                     }
                     is HomeViewModel.TransactionListEvent.NavigateToAnalyticsListScreen -> {
-                        val action = TransactionListFragmentDirections.navigateToAnalytics()
+                        val action = HomeFragmentDirections.navigateToAnalytics()
                         Navigation.findNavController(requireView()).navigate(action)
                     }
                      is HomeViewModel.TransactionListEvent.NavigateToCategoryScreen -> {
-                        val action = TransactionListFragmentDirections.navigateToCategoriesList()
+                        val action = HomeFragmentDirections.navigateToCategoriesList()
                         Navigation.findNavController(requireView()).navigate(action)
                     }
                 }.exhaustive
@@ -313,7 +304,7 @@ class TransactionListFragment : Fragment(R.layout.home_fragment),
 
     }
 
-    private fun formatDate(date: Date): String {
+    fun formatDate(date: Date): String {
         val myFormat = "MM/dd/yyyy"
         val sdf = SimpleDateFormat(myFormat, Locale.US)
         return sdf.format(date)
@@ -329,13 +320,7 @@ class TransactionListFragment : Fragment(R.layout.home_fragment),
         return sdf.format(System.currentTimeMillis() - 604800000L) //7 days ago
     }
 
-    private fun moneyFormatter(number: Long): String {
-        val format: NumberFormat = NumberFormat.getCurrencyInstance()
-        format.maximumFractionDigits = 0
-        format.currency = Currency.getInstance("IRR")
 
-        return format.format(number)
-    }
 
     /*//todo save day with view model
     override fun onSaveInstanceState(outState: Bundle) {
@@ -343,7 +328,7 @@ class TransactionListFragment : Fragment(R.layout.home_fragment),
         outState.putString(DATE_KEY, formatDate(calendar.time))
     }*/
 
-    private fun setupPieChart() {
+   /* private fun setupPieChart() {
         binding.header.pieChart.apply {
             isDrawHoleEnabled = true
             setUsePercentValues(true)
@@ -392,7 +377,7 @@ class TransactionListFragment : Fragment(R.layout.home_fragment),
 
         pieChart.animateY(1400, Easing.EaseInOutQuad)
     }
-
+*/
     override fun openAnalytics() {
         viewModel.analyticsClicked()
         bottomNavDrawerFragment.dismiss()

@@ -8,6 +8,7 @@ import android.view.View
 import android.view.animation.Animation
 import androidx.appcompat.widget.SearchView
 import com.example.arfinance.BuildConfig
+import java.text.NumberFormat
 import java.util.*
 
 
@@ -57,4 +58,12 @@ fun setLocale(activity: Activity, languageCode: String) {
 fun drawbleToString(context: Context) {
 
     val id: Int = context.resources.getIdentifier("picture0001", "drawable", context.packageName)
+}
+
+fun moneyFormatter(number: Long): String {
+    val format: NumberFormat = NumberFormat.getCurrencyInstance()
+    format.maximumFractionDigits = 0
+    format.currency = Currency.getInstance("IRR")
+
+    return format.format(number)
 }

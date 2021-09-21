@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".ui.addEditTransaction.AddEditTransactionFragment"
     android:background="@color/colorAccentBackground"
+    android:id="@+id/add_edit_transaction_root"
     >
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -55,7 +56,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/txt_transactions_type"
             app:singleLine="true"
-            app:singleSelection="true">
+            app:singleSelection="true"
+            app:selectionRequired="true">
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/income"
@@ -183,7 +185,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/txt_payment_type"
             app:singleLine="true"
-            app:singleSelection="true">
+            app:singleSelection="true"
+            app:selectionRequired="true">
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/cash"
