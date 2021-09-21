@@ -1,41 +1,121 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.home.HomeFragment">
+    android:id="@+id/home_root">
 
-
-    <include
-        android:id="@+id/header"
-        layout="@layout/layout_home_header"
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="match_parent"
+        android:clipToPadding="false">
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/txt_transactions"
+        <!-- Scrollable content -->
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingBottom="100dp"
+            >
+
+           <!-- <include
+                android:id="@+id/header"
+                layout="@layout/layout_home_header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" /-->
+
+            <com.example.arfinance.ui.base.HeaderView
+                android:id="@+id/header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/txt_transactions"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/large_margin"
+                android:text="@string/transactions"
+                android:textSize="@dimen/large_font"
+                android:textColor="@color/black"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/header" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/txt_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/large_margin"
+                android:text="@string/today"
+                android:textSize="@dimen/large_font"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/header" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/transaction_list_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/standard_margin"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/txt_transactions"
+                tools:itemCount="3"
+                tools:listitem="@layout/item_transaction"
+                android:visibility="gone"/>
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/no_result_image_view"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/txt_transactions"
+                app:srcCompat="@drawable/no_result"
+                android:layout_margin = "@dimen/standard_margin"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <com.google.android.material.bottomappbar.BottomAppBar
+        android:id="@+id/bottom_app_bar"
+        style="@style/Widget.MaterialComponents.BottomAppBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        app:backgroundTint="@color/colorPrimary"
+        app:fabAlignmentMode="center"
+        app:fabCradleMargin="10dp"
+        app:fabCradleRoundedCornerRadius="10dp"
+        app:fabCradleVerticalOffset="5dp"
+        app:hideOnScroll="true"
+        app:menu="@menu/bottom_app_bar"
+        app:navigationIcon="@drawable/ic_menu" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/add_transaction_fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/standard_margin"
-        android:text="@string/transactions"
-        android:textSize="@dimen/large_font"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/header" />
+        android:contentDescription="@string/add"
+        app:fabSize="normal"
+        app:layout_anchor="@id/bottom_app_bar"
+        app:srcCompat="@drawable/ic_add" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/transaction_list_recycler_view"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_margin="@dimen/standard_margin"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txt_transactions"
-        tools:itemCount="3"
-        tools:listitem="@layout/item_child_transaction" />
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <View
+        android:id="@+id/explosion_circle"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        app:layout_anchor="@+id/add_transaction_fab"
+        app:layout_anchorGravity="center"
+        android:visibility="invisible"
+        android:background="@drawable/circle"
+        />
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 
 

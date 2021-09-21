@@ -21,6 +21,17 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/txt_total_balance_week"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/standard_margin"
+                android:padding="@dimen/standard_margin"
+                android:text="@string/week"
+                android:textColor="@color/gray500"
+                android:textSize="@dimen/large_font"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/txt_total_balance"
@@ -44,28 +55,46 @@
                 android:textSize="@dimen/big_font"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/txt_total_balance"
-                tools:text="1.500.00 toman" />
+                android:text="@string/no_record" />
 
             <com.github.mikephil.charting.charts.PieChart
                 android:id="@+id/pie_chart"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="350dp"
                 android:layout_margin="@dimen/standard_margin"
                 app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/total_balance" />
+                app:layout_constraintTop_toBottomOf="@id/total_balance"
+                android:visibility="gone"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/no_data_for_pie_chart_txt"
+                android:text="@string/no_data_for_chart"
+                android:textColor="@color/colorAccent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/total_balance"
+                android:layout_margin="@dimen/extra_margin"
+                android:textSize="@dimen/extra_font"/>
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </com.google.android.material.card.MaterialCardView>
 
     <com.google.android.material.card.MaterialCardView
+        android:id="@+id/materialCardView2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/large_margin"
         app:cardCornerRadius="5dp"
+        app:layout_constraintEnd_toEndOf="@id/guideline_center_vertical"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/materialCardView"
-        app:layout_constraintEnd_toEndOf="@id/guideline_center_vertical">
+        app:layout_constraintTop_toBottomOf="@+id/materialCardView">
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -98,7 +127,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/txt_income"
-                tools:text="3.000.00 toman" />
+                android:text="@string/no_record" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
@@ -110,7 +139,8 @@
         app:cardCornerRadius="5dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@id/guideline_center_vertical"
-        app:layout_constraintTop_toBottomOf="@+id/materialCardView">
+        app:layout_constraintTop_toBottomOf="@+id/materialCardView"
+        >
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -143,7 +173,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/txt_expense"
-                tools:text="1.500.00 toman" />
+                android:text="@string/no_record" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>

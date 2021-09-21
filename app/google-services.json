@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1066149655387",
+    "project_id": "arfinance-c9818",
+    "storage_bucket": "arfinance-c9818.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1066149655387:android:2667b0efc0e6184b12a07e",
+        "android_client_info": {
+          "package_name": "com.example.arfinance"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1066149655387-4729ln69mfjcq5fkln3joiblsgusm9o5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDUDFk5-P65A9aXnfQXTScYP1tIzV5c6vw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1066149655387-4729ln69mfjcq5fkln3joiblsgusm9o5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

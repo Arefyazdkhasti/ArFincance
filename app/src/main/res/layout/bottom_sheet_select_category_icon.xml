@@ -1,0 +1,431 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/category_icons_gridview"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/appCompatTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/standard_margin"
+        android:text="@string/select_icon"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="@dimen/big_font"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <GridLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/small_margin"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/appCompatTextView">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/accessory"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:layout_row="0"
+            android:layout_column="0"
+            android:layout_columnWeight="1"
+            android:layout_margin="@dimen/small_margin"
+            android:src="@drawable/ic_accessory" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/award"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:layout_row="0"
+            android:layout_column="2"
+            android:layout_columnWeight="1"
+            android:layout_margin="@dimen/small_margin"
+            android:src="@drawable/ic_award" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/beer"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:layout_row="0"
+            android:layout_column="3"
+            android:layout_columnWeight="1"
+            android:layout_margin="@dimen/small_margin"
+            android:src="@drawable/ic_beer" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/boat"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:layout_row="0"
+            android:layout_column="4"
+            android:layout_columnWeight="1"
+            android:layout_margin="@dimen/small_margin"
+            android:src="@drawable/ic_boat" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/book"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:layout_row="0"
+            android:layout_column="5"
+            android:layout_columnWeight="1"
+            android:layout_margin="@dimen/small_margin"
+            android:src="@drawable/ic_book" />
+
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/car"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:layout_row="1"
+            android:layout_column="0"
+            android:layout_columnWeight="1"
+            android:layout_margin="@dimen/small_margin"
+            android:src="@drawable/ic_car" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/clothes"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:layout_row="1"
+            android:layout_column="2"
+            android:layout_columnWeight="1"
+            android:layout_margin="@dimen/small_margin"
+            android:src="@drawable/ic_clothes" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/coffee"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:layout_row="1"
+            android:layout_column="3"
+            android:layout_columnWeight="1"
+            android:layout_margin="@dimen/small_margin"
+            android:src="@drawable/ic_coffe" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/computer"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:layout_row="1"
+            android:layout_column="4"
+            android:layout_columnWeight="1"
+            android:layout_margin="@dimen/small_margin"
+            android:src="@drawable/ic_computer" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/cosmetic"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:layout_row="1"
+            android:layout_column="5"
+            android:layout_columnWeight="1"
+            android:layout_margin="@dimen/small_margin"
+            android:src="@drawable/ic_cosmetic" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/drink"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:layout_row="2"
+            android:layout_column="0"
+            android:layout_columnWeight="1"
+            android:layout_margin="@dimen/small_margin"
+            android:src="@drawable/ic_drink" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/electric"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:layout_row="2"
+            android:layout_column="2"
+            android:layout_columnWeight="1"
+            android:layout_margin="@dimen/small_margin"
+            android:src="@drawable/ic_electric" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/entertainment"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:layout_row="2"
+            android:layout_column="3"
+            android:layout_columnWeight="1"
+            android:layout_margin="@dimen/small_margin"
+            android:src="@drawable/ic_entertainmmment" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/fitness"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:layout_row="2"
+            android:layout_column="4"
+            android:layout_columnWeight="1"
+            android:layout_margin="@dimen/small_margin"
+            android:src="@drawable/ic_fitness" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/food"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:layout_row="2"
+            android:layout_column="5"
+            android:layout_columnWeight="1"
+            android:layout_margin="@dimen/small_margin"
+            android:src="@drawable/ic_food" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/fruit"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:layout_row="3"
+            android:layout_column="0"
+            android:layout_columnWeight="1"
+            android:layout_margin="@dimen/small_margin"
+            android:src="@drawable/ic_fruit" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/gift"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:layout_row="3"
+            android:layout_column="2"
+            android:layout_columnWeight="1"
+            android:layout_margin="@dimen/small_margin"
+            android:src="@drawable/ic_gift" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/grocery"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:layout_row="3"
+            android:layout_column="3"
+            android:layout_columnWeight="1"
+            android:layout_margin="@dimen/small_margin"
+            android:src="@drawable/ic_grocery" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/home"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:layout_row="3"
+            android:layout_column="4"
+            android:layout_columnWeight="1"
+            android:layout_margin="@dimen/small_margin"
+            android:src="@drawable/ic_home" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/hotel"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:layout_row="3"
+            android:layout_column="5"
+            android:layout_columnWeight="1"
+            android:layout_margin="@dimen/small_margin"
+            android:src="@drawable/ic_hotel" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/ice_cream"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:layout_row="4"
+            android:layout_column="0"
+            android:layout_columnWeight="1"
+            android:layout_margin="@dimen/small_margin"
+            android:src="@drawable/ic_icecream" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/sell"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:layout_row="4"
+            android:layout_column="2"
+            android:layout_columnWeight="1"
+            android:layout_margin="@dimen/small_margin"
+            android:src="@drawable/ic_sell" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/laundry"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:layout_row="4"
+            android:layout_column="3"
+            android:layout_columnWeight="1"
+            android:layout_margin="@dimen/small_margin"
+            android:src="@drawable/ic_laundry" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/medical"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:layout_row="4"
+            android:layout_column="4"
+            android:layout_columnWeight="1"
+            android:layout_margin="@dimen/small_margin"
+            android:src="@drawable/ic_medical" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/noodle"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:layout_row="4"
+            android:layout_column="5"
+            android:layout_columnWeight="1"
+            android:layout_margin="@dimen/small_margin"
+            android:src="@drawable/ic_noodle" />
+
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/oil"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:layout_row="5"
+            android:layout_column="0"
+            android:layout_columnWeight="1"
+            android:layout_margin="@dimen/small_margin"
+            android:src="@drawable/ic_oil" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/other"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:layout_row="5"
+            android:layout_column="2"
+            android:layout_columnWeight="1"
+            android:layout_margin="@dimen/small_margin"
+            android:src="@drawable/ic_other" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/people"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:layout_row="5"
+            android:layout_column="3"
+            android:layout_columnWeight="1"
+            android:layout_margin="@dimen/small_margin"
+            android:src="@drawable/ic_people" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/phone"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:layout_row="5"
+            android:layout_column="4"
+            android:layout_columnWeight="1"
+            android:layout_margin="@dimen/small_margin"
+            android:src="@drawable/ic_phone" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/pill"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:layout_row="5"
+            android:layout_column="5"
+            android:layout_columnWeight="1"
+            android:layout_margin="@dimen/small_margin"
+            android:src="@drawable/ic_pill" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/pizza"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:layout_row="6"
+            android:layout_column="0"
+            android:layout_columnWeight="1"
+            android:layout_margin="@dimen/small_margin"
+            android:src="@drawable/ic_pizza" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/plane"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:layout_row="6"
+            android:layout_column="2"
+            android:layout_columnWeight="1"
+            android:layout_margin="@dimen/small_margin"
+            android:src="@drawable/ic_plane" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/restaurant"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:layout_row="6"
+            android:layout_column="3"
+            android:layout_columnWeight="1"
+            android:layout_margin="@dimen/small_margin"
+            android:src="@drawable/ic_restaurant" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/saving"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:layout_row="6"
+            android:layout_column="4"
+            android:layout_columnWeight="1"
+            android:layout_margin="@dimen/small_margin"
+            android:src="@drawable/ic_saving" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/shopping"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:layout_row="6"
+            android:layout_column="5"
+            android:layout_columnWeight="1"
+            android:layout_margin="@dimen/small_margin"
+            android:src="@drawable/ic_shopping" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/sweet"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:layout_row="7"
+            android:layout_column="0"
+            android:layout_columnWeight="1"
+            android:layout_margin="@dimen/small_margin"
+            android:src="@drawable/ic_sweet" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/taxi"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:layout_row="7"
+            android:layout_column="2"
+            android:layout_columnWeight="1"
+            android:layout_margin="@dimen/small_margin"
+            android:src="@drawable/ic_taxi" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/train"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:layout_row="7"
+            android:layout_column="3"
+            android:layout_columnWeight="1"
+            android:layout_margin="@dimen/small_margin"
+            android:src="@drawable/ic_train" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/water"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:layout_row="7"
+            android:layout_column="4"
+            android:layout_columnWeight="1"
+            android:layout_margin="@dimen/small_margin"
+            android:src="@drawable/ic_water" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/working"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:layout_row="7"
+            android:layout_column="5"
+            android:layout_columnWeight="1"
+            android:layout_margin="@dimen/small_margin"
+            android:src="@drawable/ic_working" />
+    </GridLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
