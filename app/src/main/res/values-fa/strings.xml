@@ -52,10 +52,19 @@
 
     <string name="theme_key">theme</string>
     <string name="language_key">language</string>
-    <string name="calender_key">calender</string>
+    <string name="color_key">color</string>
     <string name="add_transaction">افزودن تراکنش</string>
     <string name="add_category">افزودن دسته بندی</string>
     <string name="app_theme">تم برنامه</string>
     <string name="language">زبان</string>
-    <string name="calender">تقویم</string>
+    <string name="color">رنگ ثانویه</string>
+
+    <string name="cancel">بیخیال</string>
+    <string name="confirm">انتخاب</string>
+
+    <string name="orange">orange</string>
+    <string name="blue">blue</string>
+    <string name="green">green</string>
+    <string name="yellow">yellow</string>
+    <string name="purple">purple</string>
 </resources>

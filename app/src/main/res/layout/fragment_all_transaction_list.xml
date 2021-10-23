@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".ui.allTransactionList.AllTransactionListFragment">
 
-    <com.cooltechworks.views.shimmer.ShimmerRecyclerView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/all_transaction_list_recycler_view"
         android:layout_width="0dp"
         android:layout_height="0dp"

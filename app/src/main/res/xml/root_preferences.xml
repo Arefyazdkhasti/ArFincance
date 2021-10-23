@@ -26,14 +26,19 @@
             app:useSimpleSummaryProvider="true"
             />
 
-        <ListPreference
+        <!--<ListPreference
             app:key="@string/calender_key"
             app:defaultValue="@string/gregorian_calendar"
             app:entries="@array/calender_entries"
             app:entryValues="@array/calender_values"
             app:title="@string/calender"
             app:useSimpleSummaryProvider="true"
+            />-->
+        <Preference
+            app:key="@string/color_key"
+            app:title="@string/color"
             />
+
     </PreferenceCategory>
 
 

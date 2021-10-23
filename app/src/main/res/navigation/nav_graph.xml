@@ -74,6 +74,10 @@
         android:id="@+id/allTransactionListFragment"
         android:name="com.example.arfinance.ui.allTransactionList.AllTransactionListFragment"
         android:label="@string/see_all_transactions"
-        tools:layout="@layout/fragment_all_transaction_list" />
+        tools:layout="@layout/fragment_all_transaction_list" >
+        <action
+            android:id="@+id/editTransaction"
+            app:destination="@id/addEditTransactionFragment" />
+    </fragment>
 
 </navigation>
