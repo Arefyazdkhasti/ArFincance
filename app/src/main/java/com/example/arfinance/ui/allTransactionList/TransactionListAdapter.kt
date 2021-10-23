@@ -12,9 +12,14 @@ import com.example.arfinance.data.dataModel.TransactionRecyclerHelper
 import com.example.arfinance.databinding.ItemDateTransactionBinding
 import com.example.arfinance.databinding.ItemTransactionBinding
 import com.example.arfinance.util.enumerian.TransactionType
+import com.example.arfinance.util.interfaces.OnAllTransactionsItemEventListener
 
 
-class TransactionListAdapter(private val context: Context, var list: ArrayList<TransactionRecyclerHelper>) :
+class TransactionListAdapter(
+    private val context: Context,
+    var list: ArrayList<TransactionRecyclerHelper>,
+    val onAllTransactionsItemEventListener: OnAllTransactionsItemEventListener
+    ) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     companion object {
@@ -67,6 +72,14 @@ class TransactionListAdapter(private val context: Context, var list: ArrayList<T
                         )
                     )
                     transactionAmount.text = "+ ${recyclerViewModel.transactions.amount}"
+                }
+
+                itemTransactionRoot.setOnClickListener {
+                    onAllTransactionsItemEventListener.onEditClickListener(recyclerViewModel.transactions)
+                }
+                itemTransactionRoot.setOnLongClickListener {
+                    onAllTransactionsItemEventListener.onDeleteClickListener(recyclerViewModel.transactions)
+                    return@setOnLongClickListener true
                 }
             }
         }

@@ -1,4 +1,5 @@
 package com.example.arfinance.ui.home
+/*
 
 import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.Espresso
@@ -33,4 +34,4 @@ class HomeFragmentTest{
         onView(withId(R.id.home_root)).check(matches(isDisplayed()))
     }
 
-}
+}*/

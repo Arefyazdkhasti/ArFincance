@@ -1,5 +1,5 @@
 package com.example.arfinance.ui
-
+/*
 import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.assertion.ViewAssertions.matches
@@ -11,6 +11,7 @@ import org.junit.Assert.*
 import org.junit.Test
 import org.junit.runner.RunWith
 
+
 @RunWith(AndroidJUnit4ClassRunner::class)
 class MainActivityTest{
 
@@ -20,4 +21,4 @@ class MainActivityTest{
 
         onView(withId(R.id.main_root)).check(matches(isDisplayed()))
     }
-}
+}*/

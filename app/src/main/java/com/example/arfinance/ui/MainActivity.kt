@@ -38,6 +38,8 @@ class MainActivity : AppCompatActivity() {
         setDefaultTheme()
 
         setDefaultLanguage()
+
+        setDefaultColorAppearance()
     }
 
     private fun setDefaultLanguage() {
@@ -73,6 +75,18 @@ class MainActivity : AppCompatActivity() {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY);
                 }
             }
+        }
+    }
+
+    private fun setDefaultColorAppearance() {
+        val preference = PreferenceManager.getDefaultSharedPreferences(this)
+
+        when(preference.getString(getString(R.string.color_key), "") ?: "") {
+            getString(R.string.orange) -> setTheme(R.style.Theme_ArFinance)
+            getString(R.string.blue) -> setTheme(R.style.Theme_ArFinance_Blue)
+            getString(R.string.green) -> setTheme(R.style.Theme_ArFinance_Green)
+            getString(R.string.yellow) -> setTheme(R.style.Theme_ArFinance_Yellow)
+            getString(R.string.purple) -> setTheme(R.style.Theme_ArFinance_Purple)
         }
     }
 

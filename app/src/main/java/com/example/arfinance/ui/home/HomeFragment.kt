@@ -70,23 +70,26 @@ class HomeFragment : Fragment(R.layout.home_fragment),
 
         viewModel.dateQuery.value = getToday()
 
-        val animation =
+        //fab explosion animation
+        /*val animation =
             AnimationUtils.loadAnimation(requireContext(), R.anim.fab_explosion_anim).apply {
                 duration = 700
                 interpolator = AccelerateDecelerateInterpolator()
-            }
+            }*/
 
         binding.apply {
             addTransactionFab.setOnClickListener {
                 if (it == null) return@setOnClickListener
 
-                addTransactionFab.visibility = View.INVISIBLE
-                explosionCircle.visibility = View.VISIBLE
+                //fab explosion animation
+                //addTransactionFab.visibility = View.INVISIBLE
+                //explosionCircle.visibility = View.VISIBLE
 
-                explosionCircle.startMyAnimation(animation) {
+                /*explosionCircle.startMyAnimation(animation) {
                     explosionCircle.visibility = View.INVISIBLE
                     viewModel.addNewTransactionClicked()
-                }
+                }*/
+                viewModel.addNewTransactionClicked()
             }
             txtDate.setOnClickListener { showDatePickerDialog() }
 

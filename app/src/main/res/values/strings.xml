@@ -51,11 +51,19 @@
 
     <string name="theme_key">theme</string>
     <string name="language_key">language</string>
-    <string name="calender_key">calender</string>
+    <string name="color_key">color</string>
     <string name="add_transaction">Add Transaction</string>
     <string name="add_category">Add Category</string>
     <string name="app_theme">App Theme</string>
     <string name="language">Language</string>
-    <string name="calender">Calender</string>
+    <string name="color">ColorAccent</string>
 
+    <string name="cancel">Cancel</string>
+    <string name="confirm">Confirm</string>
+
+    <string name="orange">orange</string>
+    <string name="blue">blue</string>
+    <string name="green">green</string>
+    <string name="yellow">yellow</string>
+    <string name="purple">purple</string>
 </resources>

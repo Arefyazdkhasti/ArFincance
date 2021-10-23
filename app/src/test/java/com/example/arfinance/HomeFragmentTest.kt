@@ -13,6 +13,7 @@ import java.util.*
 
 private const val FAKE_DATE = "10/15/2021"
 
+/*
 
 class HomeFragmentTest {
     val context = ApplicationProvider.getApplicationContext<Context>()
@@ -40,4 +41,4 @@ class HomeFragmentTest {
 
     }
 
-}
+}*/
