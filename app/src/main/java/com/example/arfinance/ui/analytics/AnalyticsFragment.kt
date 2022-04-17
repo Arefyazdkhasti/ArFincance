@@ -182,7 +182,7 @@ class AnalyticsFragment : Fragment(R.layout.analytics_fragment) {
 
     private fun get1YearAgo(): String {
         val sdf = SimpleDateFormat("MM/dd/yyyy", Locale.US)
-        return sdf.format(System.currentTimeMillis() - 20_736_000_000L) //8 months ago //todo one year ago
+        return sdf.format(System.currentTimeMillis() - 7_776_000_000L) //3 months ago
     }
 
 

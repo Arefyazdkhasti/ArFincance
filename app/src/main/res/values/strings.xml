@@ -37,7 +37,7 @@
     <string name="expense_analytics">Expense Analytics</string>
     <string name="day">day</string>
     <string name="month">month</string>
-    <string name="year">year</string>
+    <string name="three_months">3 months</string>
     <string name="expense_by_category_analytics">Expense by category Analytics</string>
     <string name="appearance">Appearance</string>
     <string name="general">General</string>
@@ -66,4 +66,10 @@
     <string name="green">green</string>
     <string name="yellow">yellow</string>
     <string name="purple">purple</string>
+
+    <string-array name="Times">
+        <item>Week</item>
+        <item>1 Month</item>
+        <item>3 Months</item>
+    </string-array>
 </resources>

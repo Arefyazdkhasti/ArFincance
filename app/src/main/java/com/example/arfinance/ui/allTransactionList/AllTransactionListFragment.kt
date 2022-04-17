@@ -33,7 +33,8 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 
 @AndroidEntryPoint
-class AllTransactionListFragment : Fragment(R.layout.fragment_all_transaction_list), OnAllTransactionsItemEventListener {
+class AllTransactionListFragment : Fragment(R.layout.fragment_all_transaction_list),
+    OnAllTransactionsItemEventListener {
 
     private val viewModel: AllTransactionListViewModel by viewModels()
     private var binding: FragmentAllTransactionListBinding by autoCleared()
@@ -54,7 +55,6 @@ class AllTransactionListFragment : Fragment(R.layout.fragment_all_transaction_li
     private fun bindUI() {
         binding.apply {
             //allTransactionListRecyclerView.showShimmerAdapter()
-
             viewModel.transactionsDates.observe(viewLifecycleOwner) { dateList ->
                 if (dateList == null) {
                     //allTransactionListRecyclerView.hideShimmerAdapter()
@@ -66,7 +66,6 @@ class AllTransactionListFragment : Fragment(R.layout.fragment_all_transaction_li
                         //allTransactionListRecyclerView.hideShimmerAdapter()
                         return@observe
                     }
-
                     setUpData(dateList, transactionList)
                 }
             }
@@ -76,7 +75,8 @@ class AllTransactionListFragment : Fragment(R.layout.fragment_all_transaction_li
                 viewModel.transactionEvent.collect { event ->
                     when (event) {
                         is AllTransactionListViewModel.TransactionListEvent.NavigateToEditTransactionScreen -> {
-                            val actionEdit = AllTransactionListFragmentDirections.editTransaction(event.transactions)
+                            val actionEdit =
+                                AllTransactionListFragmentDirections.editTransaction(event.transactions)
                             findNavController().navigate(actionEdit)
                         }
                         is AllTransactionListViewModel.TransactionListEvent.DeleteTransaction -> {
@@ -84,6 +84,10 @@ class AllTransactionListFragment : Fragment(R.layout.fragment_all_transaction_li
                         }
                     }.exhaustive
                 }
+            }
+
+            deleteAllTransactions.setOnClickListener {
+                showConfirmDeleteAllTransactoinsDialog()
             }
         }
     }
@@ -102,6 +106,25 @@ class AllTransactionListFragment : Fragment(R.layout.fragment_all_transaction_li
             }.show()
     }
 
+    private fun showConfirmDeleteAllTransactoinsDialog() {
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle("WARNING")
+            .setMessage("Do you want to delete ALL transaction?")
+            .setNegativeButton("No") { dialog, which ->
+                dialog.dismiss()
+            }
+            .setPositiveButton("Yes") { dialog, which ->
+                viewModel.deleteAllTransaction()
+                binding.apply {
+                    allTransactionListRecyclerView.visibility = View.GONE
+                    deleteAllTransactions.visibility = View.GONE
+                    emptyListAnimations.visibility = View.VISIBLE
+                }
+
+                dialog.dismiss()
+            }.show()
+    }
+
     private fun showUndoDeleteSnackBar(transition: Transactions) {
         val snackBar = Snackbar.make(requireView(), "Transaction Deleted", Snackbar.LENGTH_LONG)
         snackBar.apply {
@@ -112,9 +135,24 @@ class AllTransactionListFragment : Fragment(R.layout.fragment_all_transaction_li
             show()
         }
     }
+
     private fun setUpData(dateList: List<String>, transactionList: List<Transactions>) {
+
         val transactionData = arrayListOf<TransactionRecyclerHelper>()
 
+        if(transactionList.isEmpty()) {
+            binding.apply{
+                allTransactionListRecyclerView.visibility = View.GONE
+                deleteAllTransactions.visibility = View.GONE
+                emptyListAnimations.visibility = View.VISIBLE
+            }
+        }else{
+            binding.apply{
+                allTransactionListRecyclerView.visibility = View.VISIBLE
+                deleteAllTransactions.visibility = View.VISIBLE
+                emptyListAnimations.visibility = View.GONE
+            }
+        }
         dateList.forEach { date ->
             transactionData.add(
                 TransactionRecyclerHelper(
@@ -147,7 +185,7 @@ class AllTransactionListFragment : Fragment(R.layout.fragment_all_transaction_li
 
     private fun initTransactionRecyclerView(data: ArrayList<TransactionRecyclerHelper>) {
 
-        val recyclerAdapter = TransactionListAdapter(requireContext(), data,this)
+        val recyclerAdapter = TransactionListAdapter(requireContext(), data, this)
         binding.allTransactionListRecyclerView.apply {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = recyclerAdapter

@@ -26,6 +26,10 @@ class AllTransactionListViewModel @ViewModelInject constructor(
         transactionDao.deleteTransaction(transaction)
     }
 
+    fun deleteAllTransaction() = viewModelScope.launch {
+        transactionDao.deleteAllTransaction()
+    }
+
     fun undoDeleteTransaction(transaction: Transactions) = viewModelScope.launch {
         transactionDao.insertTransaction(transaction)
     }

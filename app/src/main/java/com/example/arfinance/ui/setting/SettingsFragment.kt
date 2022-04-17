@@ -22,13 +22,16 @@ import com.skydoves.colorpickerview.listeners.ColorEnvelopeListener
 class SettingsFragment : PreferenceFragmentCompat() {
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
-        setPreferencesFromResource(R.xml.root_preferences, rootKey)
+        //setPreferencesFromResource(R.xml.root_preferences, rootKey)
+        addPreferencesFromResource(R.xml.root_preferences)
 
         val themePreference = findPreference<ListPreference>(getString(R.string.theme_key))
         themePreference?.onPreferenceChangeListener = themeChangeListener
 
         val languagePreference = findPreference<ListPreference>(getString(R.string.language_key))
         languagePreference?.onPreferenceChangeListener = languageChangeListener
+
+        setValues(themePreference, languagePreference)
 
         val preference = findPreference<Preference>(getString(R.string.color_key))
         preference?.setOnPreferenceClickListener {
@@ -47,27 +50,28 @@ class SettingsFragment : PreferenceFragmentCompat() {
             .setView(dialogBinding.root)
             .setTitle("Choose color")
             .show()
-        val prefs: SharedPreferences.Editor = PreferenceManager.getDefaultSharedPreferences(requireContext()).edit()
+        val prefs: SharedPreferences.Editor =
+            PreferenceManager.getDefaultSharedPreferences(requireContext()).edit()
 
         dialogBinding.orangeColor.setOnClickListener {
             requireContext().theme.applyStyle(R.style.Theme_ArFinance, true)
-            confirmColorSelection(prefs,getString(R.string.orange), customDialog)
+            confirmColorSelection(prefs, getString(R.string.orange), customDialog)
         }
         dialogBinding.blueColor.setOnClickListener {
             requireContext().theme.applyStyle(R.style.Theme_ArFinance_Blue, true)
-            confirmColorSelection(prefs,getString(R.string.blue),customDialog)
+            confirmColorSelection(prefs, getString(R.string.blue), customDialog)
         }
         dialogBinding.greenColor.setOnClickListener {
             requireContext().theme.applyStyle(R.style.Theme_ArFinance_Green, true)
-            confirmColorSelection(prefs,getString(R.string.green),customDialog)
+            confirmColorSelection(prefs, getString(R.string.green), customDialog)
         }
         dialogBinding.yellowColor.setOnClickListener {
             requireContext().theme.applyStyle(R.style.Theme_ArFinance_Yellow, true)
-            confirmColorSelection(prefs,getString(R.string.yellow),customDialog)
+            confirmColorSelection(prefs, getString(R.string.yellow), customDialog)
         }
         dialogBinding.purpleColor.setOnClickListener {
             requireContext().theme.applyStyle(R.style.Theme_ArFinance_Purple, true)
-            confirmColorSelection(prefs,getString(R.string.purple),customDialog)
+            confirmColorSelection(prefs, getString(R.string.purple), customDialog)
         }
 
     }
@@ -152,5 +156,21 @@ class SettingsFragment : PreferenceFragmentCompat() {
         AppCompatDelegate.setDefaultNightMode(nightMode)
         requireActivity().recreate()
         return true
+    }
+
+    fun setValues(themePreference: ListPreference?, languagePreference: ListPreference?) {
+        val pr = PreferenceManager.getDefaultSharedPreferences(activity)
+        val theme = pr.getString(
+            getString(R.string.theme_key),
+            getString(R.string.system_default)
+        )
+        val lang = pr.getString(
+            getString(R.string.language_key),
+            getString(R.string.english)
+        )
+        Log.e("PASHM", "$theme $lang")
+
+        themePreference?.value = theme
+        languagePreference?.value = lang
     }
 }

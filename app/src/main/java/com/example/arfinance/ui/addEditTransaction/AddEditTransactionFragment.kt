@@ -2,7 +2,9 @@ package com.example.arfinance.ui.addEditTransaction
 
 import android.app.DatePickerDialog
 import android.os.Bundle
+import android.text.TextWatcher
 import android.view.*
+import android.widget.EditText
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResultListener
@@ -20,6 +22,10 @@ import com.example.arfinance.util.enumerian.PaymentType
 import com.example.arfinance.util.enumerian.TransactionType
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
+import java.lang.NumberFormatException
+import java.text.DecimalFormat
+import java.text.NumberFormat
+import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -210,5 +216,4 @@ class AddEditTransactionFragment : Fragment(R.layout.add_edit_transaction_fragme
             else -> super.onOptionsItemSelected(item)
         }
     }
-
 }

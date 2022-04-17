@@ -150,6 +150,8 @@ dependencies {
     //crashlytics
     implementation 'com.google.firebase:firebase-crashlytics-ktx'
 
+    //lottie
+    implementation 'com.airbnb.android:lottie:2.7.0'
     /*// Espresso
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
     androidTestImplementation 'androidx.test.espresso:espresso-contrib:3.4.0'

@@ -38,7 +38,7 @@
     <string name="expense_analytics">آنالیز مخارج</string>
     <string name="day">روز</string>
     <string name="month">ماه</string>
-    <string name="year">سال</string>
+    <string name="three_months">3 ماه</string>
     <string name="expense_by_category_analytics">آنالیز مخارج با دسته بندی</string>
     <string name="appearance">ظاهر</string>
     <string name="general">عمومی</string>
@@ -67,4 +67,10 @@
     <string name="green">green</string>
     <string name="yellow">yellow</string>
     <string name="purple">purple</string>
+
+    <string-array name="Times">
+        <item>هفته</item>
+        <item>1 ماه اخیر</item>
+        <item>3 ماه اخیر</item>
+    </string-array>
 </resources>

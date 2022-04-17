@@ -76,7 +76,7 @@
                         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/year" />
+                        android:text="@string/three_months" />
 
                 </com.google.android.material.button.MaterialButtonToggleGroup>
 
@@ -176,7 +176,7 @@
                         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/year" />
+                        android:text="@string/three_months" />
 
                 </com.google.android.material.button.MaterialButtonToggleGroup>
 
@@ -275,7 +275,7 @@
                         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/year" />
+                        android:text="@string/three_months" />
 
                 </com.google.android.material.button.MaterialButtonToggleGroup>
 

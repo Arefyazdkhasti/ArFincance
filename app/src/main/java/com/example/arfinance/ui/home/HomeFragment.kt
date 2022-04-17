@@ -2,9 +2,12 @@ package com.example.arfinance.ui.home
 
 import android.app.DatePickerDialog
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.AnimationUtils
+import android.widget.ArrayAdapter
+import androidx.appcompat.widget.AppCompatSpinner
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -19,6 +22,7 @@ import com.example.arfinance.data.dataModel.Balance
 import com.example.arfinance.data.dataModel.Transactions
 import com.example.arfinance.databinding.HomeFragmentBinding
 import com.example.arfinance.ui.base.BottomNavigationDrawerFragment
+import com.example.arfinance.ui.base.HeaderView
 import com.example.arfinance.util.autoCleared
 import com.example.arfinance.util.enumerian.BalanceTime
 import com.example.arfinance.util.exhaustive
@@ -91,6 +95,8 @@ class HomeFragment : Fragment(R.layout.home_fragment),
                 }*/
                 viewModel.addNewTransactionClicked()
             }
+            //header.setUpSpinner()
+
             txtDate.setOnClickListener { showDatePickerDialog() }
 
             txtTransactions.setOnClickListener { viewModel.showAllTransactionsClicked() }
@@ -152,7 +158,7 @@ class HomeFragment : Fragment(R.layout.home_fragment),
             if (it == null) return@observe
             balance.income = it
             println(it)
-            binding.header.formatIncome( it.toLong())
+            binding.header.formatIncome(it.toLong())
         }
         viewModel.balanceExpenseWeek.observe(viewLifecycleOwner) {
             if (it == null) return@observe
@@ -162,7 +168,7 @@ class HomeFragment : Fragment(R.layout.home_fragment),
 
             balance.expense = it
             println(balance.getBalance())
-            binding.header.formatBalance( balance.getBalance())
+            binding.header.formatBalance(balance.getBalance())
 
         }
 
@@ -174,7 +180,7 @@ class HomeFragment : Fragment(R.layout.home_fragment),
                 }
             } else {
                 binding.header.apply {
-                   binding.header.showChart()
+                    binding.header.showChart()
                 }
                 binding.header.setupPieChart()
                 binding.header.loadCharData(transactionsListByRange)
@@ -205,7 +211,7 @@ class HomeFragment : Fragment(R.layout.home_fragment),
                         val action = HomeFragmentDirections.navigateToAnalytics()
                         Navigation.findNavController(requireView()).navigate(action)
                     }
-                     is HomeViewModel.TransactionListEvent.NavigateToCategoryScreen -> {
+                    is HomeViewModel.TransactionListEvent.NavigateToCategoryScreen -> {
                         val action = HomeFragmentDirections.navigateToCategoriesList()
                         Navigation.findNavController(requireView()).navigate(action)
                     }
@@ -323,6 +329,15 @@ class HomeFragment : Fragment(R.layout.home_fragment),
         return sdf.format(System.currentTimeMillis() - 604800000L) //7 days ago
     }
 
+    private fun get1MonthAgo(): String {
+        val sdf = SimpleDateFormat("MM/dd/yyyy", Locale.US)
+        return sdf.format(System.currentTimeMillis() - 2_592_000_000L) //30 days ago
+    }
+
+    private fun get1YearAgo(): String {
+        val sdf = SimpleDateFormat("MM/dd/yyyy", Locale.US)
+        return sdf.format(System.currentTimeMillis() - 7_776_000_000L) //3 months ago
+    }
 
 
     /*//todo save day with view model

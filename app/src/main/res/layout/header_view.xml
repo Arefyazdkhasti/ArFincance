@@ -21,6 +21,19 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+            <androidx.appcompat.widget.AppCompatSpinner
+                android:id="@+id/txt_total_balance_spinner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/standard_margin"
+                android:padding="@dimen/standard_margin"
+                android:text="@string/week"
+                android:textColor="@color/gray500"
+                android:textSize="@dimen/large_font"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/txt_total_balance_week"
                 android:layout_width="wrap_content"
