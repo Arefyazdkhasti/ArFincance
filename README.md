@@ -27,47 +27,19 @@ Model-View-ViewModel
 ### MainPage
 
 <p align = "left" >
-  <img width="250" height="500" src="images/Home.PNG">
-  <img width="250" height="500"  src="images/Search.PNG">
-  <img width="250" height="500"  src="images/SearchResult.PNG">  
-  <img width="250" height="500" src="images/TvShow.PNG"> 
+  <img width="250" height="500" src="images/home.png">
+  <img width="250" height="500"  src="images/analytics.jpg">
 </p>
 
-### Analytics
+### Transactions
 
 <p align = "left" >
-  <img width="250" height="500" src="images/Home.PNG">
-  <img width="250" height="500"  src="images/Search.PNG">
-  <img width="250" height="500"  src="images/SearchResult.PNG">  
-  <img width="250" height="500" src="images/TvShow.PNG"> 
+  <img width="250" height="500" src="images/add_transaction.jpg">
+  <img width="250" height="500"  src="images/all_transactions.jpg">
 </p>
 
 
-### Add/EditTransaction
-
+### category
 <p align = "left" >
-  <img width="250" height="500" src="images/MovieDetail1.PNG">
-  <img width="250" height="500"  src="images/MoveiDetail2.PNG"> 
-  <img width="250" height="500" src="images/TvShowDetail.PNG"> 
-</p>
-
-### Setting
-
-<p align = "left" >
-  <img width="250" height="500" src="images/CastDetail1.PNG">
-  <img width="250" height="500"  src="images/CastDetail2.PNG"> 
-</p>
-
-### List of All Transactions
-
-<p align = "left" >
-  <img width="250" height="500" src="images/CastDetail1.PNG">
-  <img width="250" height="500"  src="images/CastDetail2.PNG"> 
-</p>
-
-### Categories and Add category page
-
-<p align = "left" >
-  <img width="250" height="500" src="images/CastDetail1.PNG">
-  <img width="250" height="500"  src="images/CastDetail2.PNG"> 
+  <img width="250" height="500"  src="images/category.jpg">
 </p>
