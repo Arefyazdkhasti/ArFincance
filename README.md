@@ -27,7 +27,7 @@ Model-View-ViewModel
 ### MainPage
 
 <p align = "left" >
-  <img width="250" height="500" src="images/home.png">
+  <img width="250" height="500" src="images/home.jpg">
   <img width="250" height="500"  src="images/analytics.jpg">
 </p>
 
@@ -36,10 +36,4 @@ Model-View-ViewModel
 <p align = "left" >
   <img width="250" height="500" src="images/add_transaction.jpg">
   <img width="250" height="500"  src="images/all_transactions.jpg">
-</p>
-
-
-### category
-<p align = "left" >
-  <img width="250" height="500"  src="images/category.jpg">
 </p>
